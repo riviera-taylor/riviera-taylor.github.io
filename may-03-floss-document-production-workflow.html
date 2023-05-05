@@ -3,16 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-04 Thu 00:14 -->
+<!-- 2023-05-05 Fri 21:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>FLOSS document production workflow</title>
 <meta name="author" content="Riviera Taylor" />
 <meta name="generator" content="Org Mode" />
 <style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
-  .date { text-align: center;
+  .subtitle { text-align: center;
               font-size: medium;
               font-weight: bold;
               margin-top:0; }
@@ -192,11 +193,11 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css" /> <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
+<div id="preamble" class="status">
+
 <!--Navigation bar-->
 <div id="nav-placeholder">
 
@@ -208,24 +209,25 @@ $(function(){
 });
 </script>
 <!--end of Navigation bar-->
+</div>
 <div id="content" class="content">
-<h1 class="title">FLOSS Document Production Workflow
+<h1 class="title">FLOSS document production workflow
 <br />
-<span class="date">4 May 2023</span>
+<span class="subtitle">Future Practice</span>
 </h1>
 
 <div id="outline-container-org0f0f39c" class="outline-2">
-<h2 id="org0f0f39c"><span class="section-number-2">1.</span> Introduction</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="org0f0f39c">Introduction</h2>
+<div class="outline-text-2" id="text-org0f0f39c">
 <p>
-This webpage illustrates a way to setup a document production tool-chain using free / libre / open source software (FLOSS). You'll need to be running <a href="#org34265c0" class="xref">Debian GNU/Linux</a>. We'll then <a href="#orgb4f3930">install fish</a> and <a href="#orgd518993" class="xref">optionally set it as the default login shell</a>. Next we'll <a href="#orgb526a0d" class="xref">setup a BibTeX file</a> for a Zotero library. Then we'll install <a href="#orgcd22933" class="xref">ConTeXt</a> and its modules as well as <a href="#org2297de6" class="xref">texlive</a>. Afterwards, we'll move onto installing emacs and git. We'll need to configure emacs to interface with some packages such as helm and org-ref. Then we'll install ghcup to install the latest version of pandoc via cabal. Finally we'll discuss how to use the tool-chain. 
+This webpage illustrates a way to setup a document production tool-chain using free / libre / open source software (FLOSS). You'll need to be running <a href="#org34265c0">Debian GNU/Linux</a>. We'll then <a href="#orgb4f3930">install fish</a> and <a href="#orgd518993">optionally set it as the default login shell</a>. Next we'll <a href="#orgb526a0d">setup a BibTeX file</a> for a Zotero library. Then we'll install <a href="#orgcd22933">ConTeXt</a> and its modules as well as <a href="#org2297de6">texlive</a>. Afterwards, we'll move onto installing <a href="#orgd52c798">install Emacs and Git</a>. We'll need to <a href="#org526c73e">configure Emacs</a> to interface with some packages such as helm and org-ref. Then we'll <a href="#org3c947f5">install ghcup</a> to install the latest version of pandoc via cabal. Finally we'll discuss <a href="#orgfc54a62">how to use the tool-chain</a>.
 </p>
 </div>
 </div>
 
 <div id="outline-container-org34265c0" class="outline-2">
-<h2 id="org34265c0"><span class="section-number-2">2.</span> Install Debian</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="org34265c0">Install Debian</h2>
+<div class="outline-text-2" id="text-org34265c0">
 <p>
 I'm running Debian as a virtual machine using gnome-boxes. For information on how to install Debian see <a href="https://www.debian.org/distrib/">this webpage</a>.
 </p>
@@ -233,8 +235,8 @@ I'm running Debian as a virtual machine using gnome-boxes. For information on ho
 </div>
 
 <div id="outline-container-orgb4f3930" class="outline-2">
-<h2 id="orgb4f3930"><span class="section-number-2">3.</span> Install Fish</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="orgb4f3930">Install Fish</h2>
+<div class="outline-text-2" id="text-orgb4f3930">
 <div class="org-src-container">
 <pre class="src src-shell">$ sudo apt-get install fish
 </pre>
@@ -246,8 +248,8 @@ It is now possible to execute the command <code>fish</code>, launching a fish se
 </div>
 
 <div id="outline-container-orgd518993" class="outline-3">
-<h3 id="orgd518993"><span class="section-number-3">3.1.</span> Gone fishing</h3>
-<div class="outline-text-3" id="text-3-1">
+<h3 id="orgd518993">Gone fishing</h3>
+<div class="outline-text-3" id="text-orgd518993">
 <p>
 Execute the command <code>which fish</code> to confirm the location of the fish executable. On my system, installing fish via the apt package manager installed the fish executable to <code>/usr/bin/fish</code>. However, you should check whether this is the case on your system. Because of the location of the executable at <code>/usr/bin/fish</code>, I'm executing the following commands below. Make sure to replace <code>/usr/bin/fish</code> with the location of the fish executable, in accordance with the output of <code>which fish</code>.
 </p>
@@ -266,12 +268,12 @@ Logout and log back in again. Open up a terminal and confirm you see the fish we
 </div>
 
 <div id="outline-container-orgb526a0d" class="outline-2">
-<h2 id="orgb526a0d"><span class="section-number-2">4.</span> Setup a BibTeX file</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="orgb526a0d">Setup a BibTeX file</h2>
+<div class="outline-text-2" id="text-orgb526a0d">
 </div>
 <div id="outline-container-org2bcc2c0" class="outline-3">
-<h3 id="org2bcc2c0"><span class="section-number-3">4.1.</span> Install Zotero</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="org2bcc2c0">Install Zotero</h3>
+<div class="outline-text-3" id="text-org2bcc2c0">
 <p>
 The easiest way to install Zotero on Debian is as follows:
 </p>
@@ -285,47 +287,47 @@ $ sudo apt install zotero
 </div>
 
 <div id="outline-container-org72c8c50" class="outline-4">
-<h4 id="org72c8c50"><span class="section-number-4">4.1.1.</span> Setup Zotero Syncing</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<h4 id="org72c8c50">Setup Zotero Syncing</h4>
+<div class="outline-text-4" id="text-org72c8c50">
 <p>
-  To set up syncing with Zotero click on the green circular arrow in the top right above the item view pane. This should generate an error message encouraging you to open sync preferences. Open sync preferences and enter your Zotero login details into the boxes.<br>
+To set up syncing with Zotero click on the green circular arrow in the top right above the item view pane. This should generate an error message encouraging you to open sync preferences. Open sync preferences and enter your Zotero login details into the boxes.
 <img src="./img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png" />
 </p>
 </div>
 </div>
 
 <div id="outline-container-org0eb4177" class="outline-4">
-<h4 id="org0eb4177"><span class="section-number-4">4.1.2.</span> Install Better BibTeX Plugin</h4>
-<div class="outline-text-4" id="text-4-1-2">
+<h4 id="org0eb4177">Install Better BibTeX Plugin</h4>
+<div class="outline-text-4" id="text-org0eb4177">
 <p>
 Head over to <a href="https://github.com/retorquere/zotero-better-bibtex/releases/latest">this GitHub Repository</a> and download the latest version of the Better BibTeX plug-in for Zotero. This plug-in will assign citation keys to every item in the Zotero library. It also enables keeping updated a BibTeX file complete with those citation keys. I recommend keeping the plug-in's default settings for generating citation keys.
 </p>
 
 <p>
-Open Zotero and go to the tools tab of the menu, select add-ons.<br>
+Open Zotero and go to the tools tab of the menu, select add-ons.
 <img src="./img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png" />
 </p>
 
 <p>
-In the Add-ons manager window select the gear icon drop-down menu and select Install add-ons from file.<br>
+In the Add-ons manager window select the gear icon drop-down menu and select Install add-ons from file.
 <img src="./img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png" />
 </p>
 
 <p>
-Navigate to your downloads file and select the <code>.xpi</code> add-on to install, then select open.<br>
+Navigate to your downloads file and select the <code>.xpi</code> add-on to install, then select open.
 <img src="./img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png" />
 </p>
 
 <p>
-Hit install now, then restart Zotero when prompted.<br>
+Hit install now, then restart Zotero when prompted.
 <img src="./img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png" />
 </p>
 </div>
 </div>
 
 <div id="outline-container-org0b4f737" class="outline-4">
-<h4 id="org0b4f737"><span class="section-number-4">4.1.3.</span> Exporting the library</h4>
-<div class="outline-text-4" id="text-4-1-3">
+<h4 id="org0b4f737">Exporting the library</h4>
+<div class="outline-text-4" id="text-org0b4f737">
 <p>
 At the terminal execute the following command
 </p>
@@ -336,17 +338,17 @@ At the terminal execute the following command
 </div>
 
 <p>
-Back in Zotero, select My Library in the panel on the right. Then click on Export Library under the file tab in the menu bar<br>
+Back in Zotero, select My Library in the panel on the right. Then click on Export Library under the file tab in the menu bar
 <img src="./img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png" />
 </p>
 
 <p>
-In the drop down menu, select Better BibTeX from the available options.<br>
+In the drop down menu, select Better BibTeX from the available options.
 <img src="./img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png" />
 </p>
 
 <p>
-Check the box that says keep updated. Rename the file to <code>my-library.bib</code> and save it in the bibliography folder in your home directory.<br>
+Check the box that says keep updated. Rename the file to <code>my-library.bib</code> and save it in the bibliography folder in your home directory.
 <img src="./img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png" />
 </p>
 </div>
@@ -355,8 +357,8 @@ Check the box that says keep updated. Rename the file to <code>my-library.bib</c
 </div>
 
 <div id="outline-container-orgcd22933" class="outline-2">
-<h2 id="orgcd22933"><span class="section-number-2">5.</span> Install ConTeXt</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="orgcd22933">Install ConTeXt</h2>
+<div class="outline-text-2" id="text-orgcd22933">
 <p>
 Having set up a BibTeX file for items in the Zotero library, it's time to install ConTeXt LuaMetaTeX and its modules. To do this we need to execute the following commands at the terminal. <code>$</code> denotes a shell prompt at the terminal, in fish the default shell prompt looks like <code>&gt;</code>. 
 </p>
@@ -379,16 +381,16 @@ This will provide a standalone installation of the latest version of ConTeXt Lua
 </div>
 
 <div id="outline-container-org5d9b8e4" class="outline-3">
-<h3 id="org5d9b8e4"><span class="section-number-3">5.1.</span> Adding ConTeXt to the path</h3>
-<div class="outline-text-3" id="text-5-1">
+<h3 id="org5d9b8e4">Adding ConTeXt to the path</h3>
+<div class="outline-text-3" id="text-org5d9b8e4">
 <p>
 Depending on your version of fish you will either have the command <code>fish_add_path</code> or you will not. Run <code>fish --version</code> in a terminal to confirm what version of fish you have.
 </p>
 </div>
 
 <div id="outline-container-org632ffdb" class="outline-4">
-<h4 id="org632ffdb"><span class="section-number-4">5.1.1.</span> <code>fish_add_path</code> (fish 3.2.0 or later)</h4>
-<div class="outline-text-4" id="text-5-1-1">
+<h4 id="org632ffdb"><code>fish_add_path</code> (fish 3.2.0 or later)</h4>
+<div class="outline-text-4" id="text-org632ffdb">
 <p>
 If you are running fish 3.2.0 or later you should have the command <code>fish_add_path</code> which enables one to add paths to fish.
 </p>
@@ -409,8 +411,8 @@ Ensure to replace <code>username</code> with your username. You may need to logo
 </div>
 
 <div id="outline-container-org14d2285" class="outline-4">
-<h4 id="org14d2285"><span class="section-number-4">5.1.2.</span> Editing a configuration file (fish 3.1.x or earlier)</h4>
-<div class="outline-text-4" id="text-5-1-2">
+<h4 id="org14d2285">Editing a configuration file (fish 3.1.x or earlier)</h4>
+<div class="outline-text-4" id="text-org14d2285">
 <p>
 Fish has several configuration files which it consults on startup. If your version of fish is 3.1.x or earlier, you don't have the command <code>fish_add_path</code> but don't worry, edit the configuration files. This is to tell fish about the existence of the software that has been installed. The configuration file to edit is located at <code>~/.config/fish/config.fish</code>.
 </p>
@@ -444,8 +446,8 @@ Ensure to replace <code>username</code> with your username. Save the file then l
 </div>
 
 <div id="outline-container-org2297de6" class="outline-2">
-<h2 id="org2297de6"><span class="section-number-2">6.</span> Install texlive</h2>
-<div class="outline-text-2" id="text-6">
+<h2 id="org2297de6">Install texlive</h2>
+<div class="outline-text-2" id="text-org2297de6">
 <div class="org-src-container">
 <pre class="src src-shell">$ sudo apt-get install texlive 
 </pre>
@@ -455,8 +457,8 @@ Ensure to replace <code>username</code> with your username. Save the file then l
 
 
 <div id="outline-container-orgd52c798" class="outline-2">
-<h2 id="orgd52c798"><span class="section-number-2">7.</span> Install Emacs and Git</h2>
-<div class="outline-text-2" id="text-7">
+<h2 id="orgd52c798">Install Emacs and Git</h2>
+<div class="outline-text-2" id="text-orgd52c798">
 <div class="org-src-container">
 <pre class="src src-shell">$ sudo apt-get install emacs git
 </pre>
@@ -464,8 +466,8 @@ Ensure to replace <code>username</code> with your username. Save the file then l
 </div>
 
 <div id="outline-container-org526c73e" class="outline-3">
-<h3 id="org526c73e"><span class="section-number-3">7.1.</span> Configure Emacs</h3>
-<div class="outline-text-3" id="text-7-1">
+<h3 id="org526c73e">Configure Emacs</h3>
+<div class="outline-text-3" id="text-org526c73e">
 <p>
 In this section I discuss how to configure Emacs with various packages relevant to this document production tool-chain. Edit your <code>.emacs</code> file, if it doesn't already exist create it with the following:
 </p>
@@ -477,8 +479,8 @@ In this section I discuss how to configure Emacs with various packages relevant 
 </div>
 
 <div id="outline-container-org2f3bf32" class="outline-4">
-<h4 id="org2f3bf32"><span class="section-number-4">7.1.1.</span> straight-use-package</h4>
-<div class="outline-text-4" id="text-7-1-1">
+<h4 id="org2f3bf32">straight-use-package</h4>
+<div class="outline-text-4" id="text-org2f3bf32">
 <p>
 Add the following lines of code to your .emacs file (or init file)
 </p>
@@ -507,8 +509,8 @@ Then close and restart Emacs
 </div>
 
 <div id="outline-container-org3c98586" class="outline-4">
-<h4 id="org3c98586"><span class="section-number-4">7.1.2.</span> Installing org-ref and helm</h4>
-<div class="outline-text-4" id="text-7-1-2">
+<h4 id="org3c98586">Installing org-ref and helm</h4>
+<div class="outline-text-4" id="text-org3c98586">
 <p>
 At this point, let's use straight-use-package to install different pieces of software such as org-ref, helm and use-package. Append the following lines of code to your .emacs file.
 </p>
@@ -528,8 +530,8 @@ Save the file and restart Emacs to clone the packages.
 </div>
 
 <div id="outline-container-org747ab00" class="outline-4">
-<h4 id="org747ab00"><span class="section-number-4">7.1.3.</span> Configuring helm</h4>
-<div class="outline-text-4" id="text-7-1-3">
+<h4 id="org747ab00">Configuring helm</h4>
+<div class="outline-text-4" id="text-org747ab00">
 <p>
 Append the following lines to your .emacs.
 </p>
@@ -545,8 +547,8 @@ Append the following lines to your .emacs.
 </div>
 
 <div id="outline-container-org1d0320f" class="outline-4">
-<h4 id="org1d0320f"><span class="section-number-4">7.1.4.</span> Configuring helm-bibtex</h4>
-<div class="outline-text-4" id="text-7-1-4">
+<h4 id="org1d0320f">Configuring helm-bibtex</h4>
+<div class="outline-text-4" id="text-org1d0320f">
 <p>
 The next lines to add to the .emacs file are as follows:
 </p>
@@ -579,8 +581,8 @@ These lines of code will configure helm-bibtex
 </div>
 
 <div id="outline-container-org87c6589" class="outline-4">
-<h4 id="org87c6589"><span class="section-number-4">7.1.5.</span> Configuring org-ref and org-ref-helm</h4>
-<div class="outline-text-4" id="text-7-1-5">
+<h4 id="org87c6589">Configuring org-ref and org-ref-helm</h4>
+<div class="outline-text-4" id="text-org87c6589">
 <p>
 Now we need to configure org-ref; add the following lines of code to your .emacs file.
 </p>
@@ -635,12 +637,12 @@ Restart Emacs.
 </div>
 
 <div id="outline-container-org9887b56" class="outline-2">
-<h2 id="org9887b56"><span class="section-number-2">8.</span> Install Pandoc via ghcup</h2>
-<div class="outline-text-2" id="text-8">
+<h2 id="org9887b56">Install Pandoc via ghcup</h2>
+<div class="outline-text-2" id="text-org9887b56">
 </div>
 <div id="outline-container-org3c947f5" class="outline-3">
-<h3 id="org3c947f5"><span class="section-number-3">8.1.</span> Install ghcup</h3>
-<div class="outline-text-3" id="text-8-1">
+<h3 id="org3c947f5">Install ghcup</h3>
+<div class="outline-text-3" id="text-org3c947f5">
 <p>
 Open a terminal and enter the following command
 </p>
@@ -665,8 +667,8 @@ end
 </div>
 
 <div id="outline-container-org3e1346a" class="outline-3">
-<h3 id="org3e1346a"><span class="section-number-3">8.2.</span> Installing Pandoc</h3>
-<div class="outline-text-3" id="text-8-2">
+<h3 id="org3e1346a">Installing Pandoc</h3>
+<div class="outline-text-3" id="text-org3e1346a">
 <div class="org-src-container">
 <pre class="src src-shell">$ cabal update
 $ cabal install pandoc-cli
@@ -685,8 +687,8 @@ Once the installation has finished run the command <code>which pandoc</code> to 
 </div>
 
 <div id="outline-container-orgfc54a62" class="outline-2">
-<h2 id="orgfc54a62"><span class="section-number-2">9.</span> Using the tool-chain</h2>
-<div class="outline-text-2" id="text-9">
+<h2 id="orgfc54a62">Using the tool-chain</h2>
+<div class="outline-text-2" id="text-orgfc54a62">
 <p>
 Having installed and configured the software it is time to write in org mode. There is a workflow which connects the Zotero database to org-mode. Org-ref works in tandem with BibTeX to generate bibliographies, cross-references and inline citations. Pandoc then supports with exporting to ConTeXt, but publishing to html is an alternative way of using the software.
 </p>

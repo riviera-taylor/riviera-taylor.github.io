@@ -63,15 +63,14 @@ h2 {
     margin-bottom: 1vh;
 }
 
-navbar {
+nav {
     background-color: #FDF0D5;
     overflow: hidden;
     z-index: 999;
     position: sticky;
-    top: 0;
 }
 
-.navbar a {
+nav a {
     display: block;
     color: #222;
     background-color: #FDF0D5;
@@ -81,23 +80,23 @@ navbar {
     font-size: 1.25rem;
 }
 
-.navbar a:hover {
+nav a:hover {
     background-color: #C6D8D3;
     color: #222;
 }
 
-.navbar a:active {
+nav a:active {
     background-color: #EB5E55;
     color: #fff;
 }
 
-.navbar ul {
+nav ul {
     list-style-type: none;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
 }
 
-.navbar li {
+nav li {
     float: left;
 }
