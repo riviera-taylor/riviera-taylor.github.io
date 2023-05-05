@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+img {
+    width: 100%;
+    margin-left: 0;
+    align-self: auto;
+    border: 1px solid black;
+}
+
+body {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    color: #3A3335;
+    background: #FDF0D5;
+}
+
+code {
+    font-size: 1.25rem;
+}
+
+.title {
+    background: #D81E5B;
+    color: #fff;
+    width: auto;
+    margin: 0;
+    outline: 1vw solid #D81E5B;
+}
+
+#content {
+    background: #C6D8D3;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+    
+}
+
+a.xref {
+    text-decoration: underline;
+    color: black;
+}
+
+p {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 1vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    text-align: justify;
+}
+
+h2 {
+    padding-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.navbar {
+    background-color: #FDF0D5;
+    overflow: hidden;
+    z-index: 999;
+    position: sticky;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #222;
+  background-color: #FDF0D5;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+.navbar a:hover {
+  background-color: #C6D8D3;
+  color: #222;
+}
+
+.navbar a:active {
+    background-color: #EB5E55;
+    color: #fff;
+}

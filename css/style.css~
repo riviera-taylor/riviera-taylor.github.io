@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+img {
+    width: 100%;
+    margin-left: 0;
+    align-self: auto;
+    border: 1px solid black;
+}
+
+body {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    background: lightgoldenrodyellow;
+}
+
+code {
+    font-size: 1.25rem;
+}
+
+.title {
+    background: rgb(219, 112, 147);
+    width: auto;
+    margin: 0;
+    outline: 1vw solid palevioletred;
+}
+
+#content {
+    background: rgba(219, 112, 147, 0.4);
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+    
+}
+
+.xref {
+    text-decoration: underline;
+    color: black;
+}
+
+p {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 1vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    text-align: justify;
+}
+
+h2 {
+    padding-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+ul.sidenav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: lightgoldenrodyellow;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color on hover */
+li a:hover {
+  background-color: #555;
+  color: white;
+}
+@media screen and (max-width: 900px) {
+  ul.sidenav {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  ul.sidenav li a {
+    float: left;
+    padding: 15px;
+  }
+  
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  ul.sidenav li a {
+    text-align: center;
+    float: none;
+  }
+}

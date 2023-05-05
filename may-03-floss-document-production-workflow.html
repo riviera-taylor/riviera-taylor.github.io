@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-04 Thu 00:14 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FLOSS document production workflow</title>
+<meta name="author" content="Riviera Taylor" />
+<meta name="generator" content="Org Mode" />
+<style>
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .date { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<!--Navigation bar-->
+<div id="nav-placeholder">
+
+</div>
+
+<script>
+$(function(){
+  $("#nav-placeholder").load("nav.html");
+});
+</script>
+<!--end of Navigation bar-->
+<div id="content" class="content">
+<h1 class="title">FLOSS Document Production Workflow
+<br />
+<span class="date">4 May 2023</span>
+</h1>
+
+<div id="outline-container-org0f0f39c" class="outline-2">
+<h2 id="org0f0f39c"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This webpage illustrates a way to setup a document production tool-chain using free / libre / open source software (FLOSS). You'll need to be running <a href="#org34265c0" class="xref">Debian GNU/Linux</a>. We'll then <a href="#orgb4f3930">install fish</a> and <a href="#orgd518993" class="xref">optionally set it as the default login shell</a>. Next we'll <a href="#orgb526a0d" class="xref">setup a BibTeX file</a> for a Zotero library. Then we'll install <a href="#orgcd22933" class="xref">ConTeXt</a> and its modules as well as <a href="#org2297de6" class="xref">texlive</a>. Afterwards, we'll move onto installing emacs and git. We'll need to configure emacs to interface with some packages such as helm and org-ref. Then we'll install ghcup to install the latest version of pandoc via cabal. Finally we'll discuss how to use the tool-chain. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34265c0" class="outline-2">
+<h2 id="org34265c0"><span class="section-number-2">2.</span> Install Debian</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+I'm running Debian as a virtual machine using gnome-boxes. For information on how to install Debian see <a href="https://www.debian.org/distrib/">this webpage</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb4f3930" class="outline-2">
+<h2 id="orgb4f3930"><span class="section-number-2">3.</span> Install Fish</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-shell">$ sudo apt-get install fish
+</pre>
+</div>
+
+<p>
+It is now possible to execute the command <code>fish</code>, launching a fish session in the terminal. If you want to change your default shell to fish, as I have, follow along below. 
+</p>
+</div>
+
+<div id="outline-container-orgd518993" class="outline-3">
+<h3 id="orgd518993"><span class="section-number-3">3.1.</span> Gone fishing</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Execute the command <code>which fish</code> to confirm the location of the fish executable. On my system, installing fish via the apt package manager installed the fish executable to <code>/usr/bin/fish</code>. However, you should check whether this is the case on your system. Because of the location of the executable at <code>/usr/bin/fish</code>, I'm executing the following commands below. Make sure to replace <code>/usr/bin/fish</code> with the location of the fish executable, in accordance with the output of <code>which fish</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ echo /usr/bin/fish | sudo tee -a /etc/shells
+$ chsh -s /usr/bin/fish
+</pre>
+</div>
+
+<p>
+Logout and log back in again. Open up a terminal and confirm you see the fish welcome message.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb526a0d" class="outline-2">
+<h2 id="orgb526a0d"><span class="section-number-2">4.</span> Setup a BibTeX file</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org2bcc2c0" class="outline-3">
+<h3 id="org2bcc2c0"><span class="section-number-3">4.1.</span> Install Zotero</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+The easiest way to install Zotero on Debian is as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ wget -qO- https://raw.githubusercontent.com/retorquere/zotero-deb/master/install.sh | sudo bash
+$ sudo apt update
+$ sudo apt install zotero
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org72c8c50" class="outline-4">
+<h4 id="org72c8c50"><span class="section-number-4">4.1.1.</span> Setup Zotero Syncing</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+  To set up syncing with Zotero click on the green circular arrow in the top right above the item view pane. This should generate an error message encouraging you to open sync preferences. Open sync preferences and enter your Zotero login details into the boxes.<br>
+<img src="./img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0eb4177" class="outline-4">
+<h4 id="org0eb4177"><span class="section-number-4">4.1.2.</span> Install Better BibTeX Plugin</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+Head over to <a href="https://github.com/retorquere/zotero-better-bibtex/releases/latest">this GitHub Repository</a> and download the latest version of the Better BibTeX plug-in for Zotero. This plug-in will assign citation keys to every item in the Zotero library. It also enables keeping updated a BibTeX file complete with those citation keys. I recommend keeping the plug-in's default settings for generating citation keys.
+</p>
+
+<p>
+Open Zotero and go to the tools tab of the menu, select add-ons.<br>
+<img src="./img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png" />
+</p>
+
+<p>
+In the Add-ons manager window select the gear icon drop-down menu and select Install add-ons from file.<br>
+<img src="./img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png" />
+</p>
+
+<p>
+Navigate to your downloads file and select the <code>.xpi</code> add-on to install, then select open.<br>
+<img src="./img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png" />
+</p>
+
+<p>
+Hit install now, then restart Zotero when prompted.<br>
+<img src="./img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0b4f737" class="outline-4">
+<h4 id="org0b4f737"><span class="section-number-4">4.1.3.</span> Exporting the library</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+At the terminal execute the following command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ mkdir ~/Bibliography
+</pre>
+</div>
+
+<p>
+Back in Zotero, select My Library in the panel on the right. Then click on Export Library under the file tab in the menu bar<br>
+<img src="./img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png" />
+</p>
+
+<p>
+In the drop down menu, select Better BibTeX from the available options.<br>
+<img src="./img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png" />
+</p>
+
+<p>
+Check the box that says keep updated. Rename the file to <code>my-library.bib</code> and save it in the bibliography folder in your home directory.<br>
+<img src="./img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd22933" class="outline-2">
+<h2 id="orgcd22933"><span class="section-number-2">5.</span> Install ConTeXt</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Having set up a BibTeX file for items in the Zotero library, it's time to install ConTeXt LuaMetaTeX and its modules. To do this we need to execute the following commands at the terminal. <code>$</code> denotes a shell prompt at the terminal, in fish the default shell prompt looks like <code>&gt;</code>. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ mkdir $<span style="color: #fcaf3e;">HOME</span>/context
+$ cd $<span style="color: #fcaf3e;">HOME</span>/context
+$ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
+$ unzip context-linux-64.zip
+$ rsync --recursive --links --times --info=progress2,remove,symsafe,flist,del --human-readable --del rsync://contextgarden.net/minimals/current/modules/ modules
+$ mkdir -p tex
+$ rsync -rlt --exclude=/VERSION --del modules/*/ tex/texmf-modules
+$ sh ./install.sh
+</pre>
+</div>
+
+<p>
+This will provide a standalone installation of the latest version of ConTeXt LuaMetaTeX including modules.
+</p>
+</div>
+
+<div id="outline-container-org5d9b8e4" class="outline-3">
+<h3 id="org5d9b8e4"><span class="section-number-3">5.1.</span> Adding ConTeXt to the path</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Depending on your version of fish you will either have the command <code>fish_add_path</code> or you will not. Run <code>fish --version</code> in a terminal to confirm what version of fish you have.
+</p>
+</div>
+
+<div id="outline-container-org632ffdb" class="outline-4">
+<h4 id="org632ffdb"><span class="section-number-4">5.1.1.</span> <code>fish_add_path</code> (fish 3.2.0 or later)</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+If you are running fish 3.2.0 or later you should have the command <code>fish_add_path</code> which enables one to add paths to fish.
+</p>
+
+<p>
+Execute the following line in a fish session at the terminal
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ fish_add_path /home/username/context/tex/texmf-linux-64/bin
+</pre>
+</div>
+
+<p>
+Ensure to replace <code>username</code> with your username. You may need to logout and login again for the changes to become active.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org14d2285" class="outline-4">
+<h4 id="org14d2285"><span class="section-number-4">5.1.2.</span> Editing a configuration file (fish 3.1.x or earlier)</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+Fish has several configuration files which it consults on startup. If your version of fish is 3.1.x or earlier, you don't have the command <code>fish_add_path</code> but don't worry, edit the configuration files. This is to tell fish about the existence of the software that has been installed. The configuration file to edit is located at <code>~/.config/fish/config.fish</code>.
+</p>
+
+<p>
+Execute the following command at the terminal
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ nano ~/.config/fish/config.fish
+</pre>
+</div>
+
+<p>
+Edit the file so that it reads as follows, or to wherever it was you installed ConTeXt.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf">if status --is-login
+    set -x PATH $PATH /home/username/context/tex/texmf-linux-64/bin
+end
+</pre>
+</div>
+
+<p>
+Ensure to replace <code>username</code> with your username. Save the file then logout and login again. This will add ConTeXt to the path.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2297de6" class="outline-2">
+<h2 id="org2297de6"><span class="section-number-2">6.</span> Install texlive</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-shell">$ sudo apt-get install texlive 
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd52c798" class="outline-2">
+<h2 id="orgd52c798"><span class="section-number-2">7.</span> Install Emacs and Git</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-shell">$ sudo apt-get install emacs git
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org526c73e" class="outline-3">
+<h3 id="org526c73e"><span class="section-number-3">7.1.</span> Configure Emacs</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+In this section I discuss how to configure Emacs with various packages relevant to this document production tool-chain. Edit your <code>.emacs</code> file, if it doesn't already exist create it with the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ emacs ~/.emacs
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2f3bf32" class="outline-4">
+<h4 id="org2f3bf32"><span class="section-number-4">7.1.1.</span> straight-use-package</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<p>
+Add the following lines of code to your .emacs file (or init file)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #b4fa70;">defvar</span> <span style="color: #fcaf3e;">bootstrap-version</span>)
+
+(<span style="color: #b4fa70;">let</span> ((bootstrap-file
+     (expand-file-name <span style="color: #e9b96e;">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
+    (bootstrap-version 5))
+(<span style="color: #b4fa70;">unless</span> (file-exists-p bootstrap-file)
+  (<span style="color: #b4fa70;">with-current-buffer</span>
+      (url-retrieve-synchronously
+       <span style="color: #e9b96e;">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
+       'silent 'inhibit-cookies)
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+(load bootstrap-file nil 'nomessage))
+</pre>
+</div>
+
+<p>
+Then close and restart Emacs
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3c98586" class="outline-4">
+<h4 id="org3c98586"><span class="section-number-4">7.1.2.</span> Installing org-ref and helm</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<p>
+At this point, let's use straight-use-package to install different pieces of software such as org-ref, helm and use-package. Append the following lines of code to your .emacs file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(straight-use-package 'org-ref)
+(straight-use-package 'helm)
+(straight-use-package 'helm-bibtex)
+(straight-use-package 'use-package)
+</pre>
+</div>
+
+<p>
+Save the file and restart Emacs to clone the packages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org747ab00" class="outline-4">
+<h4 id="org747ab00"><span class="section-number-4">7.1.3.</span> Configuring helm</h4>
+<div class="outline-text-4" id="text-7-1-3">
+<p>
+Append the following lines to your .emacs.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(global-set-key (kbd <span style="color: #e9b96e;">"M-x"</span>) #'helm-M-x)
+(global-set-key (kbd <span style="color: #e9b96e;">"C-x r b"</span>) #'helm-filtered-bookmarks)
+(global-set-key (kbd <span style="color: #e9b96e;">"C-x C-f"</span>) #'helm-find-files)
+
+(helm-mode 1)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d0320f" class="outline-4">
+<h4 id="org1d0320f"><span class="section-number-4">7.1.4.</span> Configuring helm-bibtex</h4>
+<div class="outline-text-4" id="text-7-1-4">
+<p>
+The next lines to add to the .emacs file are as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #73d216;">;; </span><span style="color: #73d216;">org-ref</span>
+(use-package helm-bibtex
+  <span style="color: #e090d7;">:init</span>
+  (setq bibtex-completion-bibliography '(<span style="color: #e9b96e;">"~/Bibliography/my-library.bib"</span>)
+        bibtex-completion-library-path '(<span style="color: #e9b96e;">"~/Bibliography/bibtex-pdfs/"</span>)
+        bibtex-completion-notes-path <span style="color: #e9b96e;">"~/Bibliography/notes/"</span>
+        bibtex-completion-notes-template-multiple-files <span style="color: #e9b96e;">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&amp;${=key=}]]\n"</span>
+        bibtex-completion-additional-search-fields '(keywords)
+        bibtex-completion-display-formats
+        '((article       . <span style="color: #e9b96e;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
+          (inbook        . <span style="color: #e9b96e;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
+          (incollection  . <span style="color: #e9b96e;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (inproceedings . <span style="color: #e9b96e;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (t             . <span style="color: #e9b96e;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
+        bibtex-completion-pdf-open-function
+        (<span style="color: #b4fa70;">lambda</span> (fpath)
+          (call-process <span style="color: #e9b96e;">"open"</span> nil 0 nil fpath))))
+</pre>
+</div>
+
+<p>
+These lines of code will configure helm-bibtex
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87c6589" class="outline-4">
+<h4 id="org87c6589"><span class="section-number-4">7.1.5.</span> Configuring org-ref and org-ref-helm</h4>
+<div class="outline-text-4" id="text-7-1-5">
+<p>
+Now we need to configure org-ref; add the following lines of code to your .emacs file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(use-package org-ref
+  <span style="color: #e090d7;">:ensure</span> nil
+<span style="color: #73d216;">;;  </span><span style="color: #73d216;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+  <span style="color: #e090d7;">:init</span>
+<span style="color: #73d216;">;;  </span><span style="color: #73d216;">(add-to-list 'load-path</span>
+<span style="color: #73d216;">;;</span><span style="color: #73d216;">             (expand-file-name "org-ref" scimax-dir))</span>
+  (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">bibtex</span>)
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator <span style="color: #e9b96e;">"-"</span>
+        bibtex-autokey-year-title-separator <span style="color: #e9b96e;">"-"</span>
+        bibtex-autokey-titleword-separator <span style="color: #e9b96e;">"-"</span>
+        bibtex-autokey-titlewords 2
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-autokey-titleword-length 5)
+  (define-key bibtex-mode-map (kbd <span style="color: #e9b96e;">"H-b"</span>) 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd <span style="color: #e9b96e;">"C-c ]"</span>) 'org-ref-cite-insert-helm)
+  (define-key org-mode-map (kbd <span style="color: #e9b96e;">"s-["</span>) 'org-ref-insert-link-hydra/body)
+  (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">org-ref-helm</span>)
+  (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">org-ref-arxiv</span>)
+  (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">org-ref-scopus</span>)
+  (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">org-ref-wos</span>))
+</pre>
+</div>
+
+<p>
+To configure org-ref-helm, add the following lines of code
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(use-package org-ref-helm
+  <span style="color: #e090d7;">:ensure</span> nil
+<span style="color: #73d216;">;;  </span><span style="color: #73d216;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+  <span style="color: #e090d7;">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+              org-ref-insert-cite-function 'org-ref-cite-insert-helm
+              org-ref-insert-label-function 'org-ref-insert-label-link
+              org-ref-insert-ref-function 'org-ref-insert-ref-link
+              org-ref-cite-onclick-function (<span style="color: #b4fa70;">lambda</span> (_) (org-ref-citation-hydra/body))))
+</pre>
+</div>
+
+<p>
+Restart Emacs.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9887b56" class="outline-2">
+<h2 id="org9887b56"><span class="section-number-2">8.</span> Install Pandoc via ghcup</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org3c947f5" class="outline-3">
+<h3 id="org3c947f5"><span class="section-number-3">8.1.</span> Install ghcup</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Open a terminal and enter the following command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ curl --proto <span style="color: #e9b96e;">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+</pre>
+</div>
+
+<p>
+Follow the instructions for your system. You may need to log in and out again for the shell to load cabal once the installation has completed. Prepend to the path if you are prompted to do so. Otherwise you may need to configure the path. If so, edit <code>~/.config/fish/config.fish</code> to read as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf">if status --is-login
+    set -x PATH $PATH /home/username/context/tex/texmf-linux-64/bin
+    set -x PATH $PATH /home/username/.cabal/bin    
+end
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e1346a" class="outline-3">
+<h3 id="org3e1346a"><span class="section-number-3">8.2.</span> Installing Pandoc</h3>
+<div class="outline-text-3" id="text-8-2">
+<div class="org-src-container">
+<pre class="src src-shell">$ cabal update
+$ cabal install pandoc-cli
+</pre>
+</div>
+
+<p>
+You may need to install <code>pkg-config</code> or other dependencies such as <code>zlib1g-dev</code> via the aptitude package manager. I cannot predict what might be missing on your system. The process may take some time and disk space.
+</p>
+
+<p>
+Once the installation has finished run the command <code>which pandoc</code> to confirm that the executable is on the path.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc54a62" class="outline-2">
+<h2 id="orgfc54a62"><span class="section-number-2">9.</span> Using the tool-chain</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Having installed and configured the software it is time to write in org mode. There is a workflow which connects the Zotero database to org-mode. Org-ref works in tandem with BibTeX to generate bibliographies, cross-references and inline citations. Pandoc then supports with exporting to ConTeXt, but publishing to html is an alternative way of using the software.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
