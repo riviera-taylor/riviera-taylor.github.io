@@ -71,19 +71,18 @@ navbar {
 }
 
 .navbar a {
-  float: left;
-  display: block;
-  color: #222;
-  background-color: #FDF0D5;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 1.25rem;
+    display: block;
+    color: #222;
+    background-color: #FDF0D5;
+    text-align: center;
+    padding: 1rem;
+    text-decoration: none;
+    font-size: 1.25rem;
 }
 
 .navbar a:hover {
-  background-color: #C6D8D3;
-  color: #222;
+    background-color: #C6D8D3;
+    color: #222;
 }
 
 .navbar a:active {
@@ -92,7 +91,12 @@ navbar {
 }
 
 .navbar ul {
+    list-style-type: none;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+}
+
+.navbar li {
+    float: left;
 }
