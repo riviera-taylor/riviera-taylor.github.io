@@ -12,12 +12,13 @@ img {
     border: 1px solid black;
 }
 
+
 body {
+    background-color: #FDF0D5;
     margin: 0;
     line-height: 1.5;
     font-size: 1.25rem;
     color: #3A3335;
-    background: #FDF0D5;
 }
 
 code {
@@ -29,6 +30,7 @@ code {
     color: #fff;
     width: auto;
     margin: 0;
+    padding: 1vh 1vw;
     outline: 1vw solid #D81E5B;
 }
 
@@ -49,8 +51,8 @@ a.xref {
 
 p {
     margin-top: 0;
-    padding-top: 0;
-    padding-bottom: 1vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
     padding-left: 1vw;
     padding-right: 1vw;
     text-align: justify;
@@ -61,7 +63,7 @@ h2 {
     margin-bottom: 1vh;
 }
 
-nav {
+navbar {
     background-color: #FDF0D5;
     overflow: hidden;
     z-index: 999;
@@ -87,4 +89,10 @@ nav {
 .navbar a:active {
     background-color: #EB5E55;
     color: #fff;
+}
+
+.navbar ul {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
