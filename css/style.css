@@ -61,7 +61,7 @@ h2 {
     margin-bottom: 1vh;
 }
 
-.navbar {
+nav {
     background-color: #FDF0D5;
     overflow: hidden;
     z-index: 999;
