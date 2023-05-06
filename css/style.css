@@ -30,8 +30,8 @@ code {
     color: #222;
     width: auto;
     margin: 0;
-    padding: 1vh 1vw;
-    outline: 1vw solid #b2a3b5;
+    outline: 2vw solid #b2a3b5;
+
 }
 
 #content {
@@ -41,8 +41,6 @@ code {
     max-width: 85%;
     padding-left: 2vw;
     padding-right: 2vw;
-}
-    
 }
 
 a.xref {
