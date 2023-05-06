@@ -14,11 +14,11 @@ img {
 
 
 body {
-    background-color: #FDF0D5;
+    background-color: #faf8d4;
     margin: 0;
     line-height: 1.5;
     font-size: 1.25rem;
-    color: #3A3335;
+    color: #222;
 }
 
 code {
@@ -26,20 +26,19 @@ code {
 }
 
 .title {
-    background: #D81E5B;
-    color: #fff;
+    background: #b2a3b5;
+    color: #222;
     width: auto;
     margin: 0;
     padding: 1vh 1vw;
-    outline: 1vw solid #D81E5B;
+    outline: 1vw solid #b2a3b5;
 }
 
 #content {
-    background: #C6D8D3;
-    padding-left: 1vw;
-    padding-right: 1vw;
+    background: #ebdccb;
     margin-left: 15%;
-    margin-right: 15%;
+    margin-right: 0;
+    max-width: 85%;
 }
     
 }
@@ -67,8 +66,8 @@ ul.sidenav {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 25%;
-    background-color: #f1f1f1;
+    width: 15%;
+    background-color: #c3baaa;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -76,19 +75,21 @@ ul.sidenav {
 
 ul.sidenav li a {
     display: block;
-    color: #000;
+    color: #222;
     padding: 8px 16px;
     text-decoration: none;
 }
 
-ul.sidenav li a.active {
-    background-color: #4CAF50;
-    color: white;
-}
+/* 
+ul.sidenav li a.active { 
+    background-color: #6B4E71;
+    color: #fff;
+} 
+*/
 
 ul.sidenav li a:hover:not(.active) {
-    background-color: #555;
-    color: white;
+    background-color: #91818a;
+    color: #fff;
 }
 
 @media screen and (max-width: 900px) {
@@ -101,6 +102,13 @@ ul.sidenav li a:hover:not(.active) {
     ul.sidenav li a {
 	float: left;
 	padding: 15px;
+    }
+    
+    #content {
+	background: #ebdccb;
+	margin-left: 0;
+	margin-right: 0;
+	max-width: 100%;
     }
 }
 
