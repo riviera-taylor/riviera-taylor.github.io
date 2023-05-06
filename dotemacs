@@ -11,8 +11,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(add-to-list 'load-path "~/.emacs.d/elisp-assorted/")
-
 (straight-use-package 'org-ref)
 (straight-use-package 'org-appear)
 (straight-use-package 'org-present)
@@ -29,7 +27,7 @@
 (straight-use-package 'visual-fill-column)
 (straight-use-package 'magit)
 
-
+(add-to-list 'load-path "~/.emacs.d/elisp-assorted/")
 
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)

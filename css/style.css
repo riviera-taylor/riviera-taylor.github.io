@@ -30,6 +30,7 @@ code {
     color: #222;
     width: auto;
     margin: 0;
+    padding-top: 1vh;
     outline: 2vw solid #b2a3b5;
 
 }
@@ -50,16 +51,33 @@ a.xref {
 
 p {
     margin-top: 0;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: 1vw;
     padding-right: 1vw;
     text-align: justify;
+    text-align-last: left;
 }
 
 h2 {
-    padding-top: 1vh;
-    margin-bottom: 1vh;
+    padding-top: 2vh;
+    margin-top: 2vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 0;
+}
+
+h3 {
+    margin: 1vh 1vw;
+}
+
+h4 {
+    margin: 1vh 1vw;
+}
+
+.figure p {
+    padding: 0;
 }
 
 ul.sidenav {
