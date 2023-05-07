@@ -248,6 +248,14 @@ p {
     text-align-last: left;
 }
 
+p.pubdate {
+    visibility: hidden;
+}
+
+div#preamble.status {
+    position: sticky;
+    top: 0;
+}
 h2 {
     padding-top: 2vh;
     margin-top: 2vh;
