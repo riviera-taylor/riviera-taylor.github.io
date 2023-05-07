@@ -6,7 +6,7 @@
 <generator>Emacs webfeeder.el</generator>
 <link>https://rivierataylor.info/blog</link>
 <atom:link href="https://rivierataylor.info/blog/rss.xml" rel="self" type="application/rss+xml"/>
-<lastBuildDate>Sun, 07 May 2023 12:22:57 +0100</lastBuildDate>
+<lastBuildDate>Sun, 07 May 2023 13:09:07 +0100</lastBuildDate>
 <item>
   <title>FLOSS document production workflow</title>
   <description><![CDATA[<div id="content" class="content">
@@ -89,8 +89,8 @@ To set up syncing with Zotero click on the green circular arrow in the top right
 </p>
 
 
- <div id="org2d11c64" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png"></img></p>
+ <div id="org66bd52f" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png"></img></p>
 </div>
 </div>
 </div>
@@ -107,8 +107,8 @@ Open Zotero and go to the tools tab of the menu, select add-ons
 </p>
 
 
- <div id="orgb299e75" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png"></img></p>
+ <div id="org0bdb2c0" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png"></img></p>
 </div>
 
  <p>
@@ -116,8 +116,8 @@ In the Add-ons manager window select the gear icon drop-down menu and select Ins
 </p>
 
 
- <div id="org9688450" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png"></img></p>
+ <div id="orgba54145" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png"></img></p>
 </div>
 
  <p>
@@ -125,8 +125,8 @@ Navigate to your downloads file and select the  <code>.xpi</code> add-on to inst
 </p>
 
 
- <div id="orgc07fd21" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png"></img></p>
+ <div id="org6a76959" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png"></img></p>
 </div>
 
  <p>
@@ -134,8 +134,8 @@ Hit install now, then restart Zotero when prompted
 </p>
 
 
- <div id="org094d74a" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png"></img></p>
+ <div id="org8645a13" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png"></img></p>
 </div>
 </div>
 </div>
@@ -157,8 +157,8 @@ Back in Zotero, select My Library in the panel on the right. Then click on Expor
 </p>
 
 
- <div id="org1b21a7e" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png"></img></p>
+ <div id="org01df8ab" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png"></img></p>
 </div>
 
  <p>
@@ -166,8 +166,8 @@ In the drop down menu, select Better BibTeX from the available options
 </p>
 
 
- <div id="org941701e" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png"></img></p>
+ <div id="org0f1ca82" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png"></img></p>
 </div>
 
  <p>
@@ -175,8 +175,8 @@ Check the box that says keep updated. Rename the file to  <code>my-library.bib</
 </p>
 
 
- <div id="org6ae760a" class="figure">
- <p> <img src="./img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png"></img></p>
+ <div id="orge6ffffb" class="figure">
+ <p> <img src="../img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png"></img></p>
 </div>
 </div>
 </div>
@@ -524,7 +524,7 @@ Having installed and configured the software it is time to write in org mode. Th
 </div>]]></description>
   <link>https://rivierataylor.info/blog/may-03-floss-document-production-workflow.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/blog/may-03-floss-document-production-workflow.html</guid>
-  <pubDate>Sun, 07 May 2023 12:22:00 +0100</pubDate>
+  <pubDate>Sun, 07 May 2023 13:08:00 +0100</pubDate>
 </item>
 <item>
   <title>Ideas</title>
@@ -537,7 +537,7 @@ Having installed and configured the software it is time to write in org mode. Th
 </div>]]></description>
   <link>https://rivierataylor.info/blog/may-04-ideas.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/blog/may-04-ideas.html</guid>
-  <pubDate>Sun, 07 May 2023 12:22:00 +0100</pubDate>
+  <pubDate>Sun, 07 May 2023 13:08:00 +0100</pubDate>
 </item>
 <item>
   <title>Making a Website with Org Mode and Git</title>
@@ -687,11 +687,12 @@ The trick is  <b>not</b> to edit the HTML code by hand but rather to let Org Mod
 </div>]]></description>
   <link>https://rivierataylor.info/blog/may-05-making-a-website.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/blog/may-05-making-a-website.html</guid>
-  <pubDate>Sun, 07 May 2023 12:22:00 +0100</pubDate>
+  <pubDate>Sun, 07 May 2023 13:08:00 +0100</pubDate>
 </item>
 <item>
-  <title>‎</title>
+  <title>Notes</title>
   <description><![CDATA[<div id="content" class="content">
+
  <div id="outline-container-org1c96104" class="outline-2">
  <h2 id="org1c96104">Writing about Emacs</h2>
  <div class="outline-text-2" id="text-org1c96104">
@@ -751,7 +752,7 @@ I recently uploaded a link to  <a href="pdfs/contemporary-other-artist-book.pdf"
 </div>]]></description>
   <link>https://rivierataylor.info/blog/may-05-notes.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/blog/may-05-notes.html</guid>
-  <pubDate>Sun, 07 May 2023 12:22:00 +0100</pubDate>
+  <pubDate>Sun, 07 May 2023 13:08:00 +0100</pubDate>
 </item>
 </channel>
 </rss>
