@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-07 Sun 13:08 -->
+<!-- 2023-05-07 Sun 13:36 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Contemporary Other Artist Book</title>
 <meta name="author" content="Riviera Taylor" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -18,9 +18,10 @@
 <div id="nav-placeholder">
 
 </div>
+
 <script>
-$.get("nav.html", function(data){
-    $("#nav-placeholder").replaceWith(data);
+$(function(){
+  $("#nav-placeholder").load("nav.html");
 });
 </script>
 <!--end of Navigation bar-->
@@ -32,6 +33,9 @@ $.get("nav.html", function(data){
 <div class="outline-text-2" id="text-org8316435">
 <p>
 I designed the Artist Book for the Contemporary Other showcase which took place at Ugly Duck in London. I created the publication using Emacs, Pandoc, ConTeXt and Scribus. All of these are pieces of Free / Libre / Open Source Software. From the outset I envisioned using full-page images for a strong visual effect. The process was collaborative insofar others contributed copy to the publication. I collated this copy and pieced it together in one document with Emacs Org Mode. I used Pandoc to export the copy to an encoded format comprehensible to ConTeXt. Next, I set about designing the layout of the artist book, adding in photographs and layout text using ConTeXt macros. These decisions were less collaborative and more autonomous. I determined the order of different sections with printing in mind. For example, I ordered sections such that double-page spreads featured the full-page image on the right page and copy on the left page.
+</p>
+
+<p>
 The pdf can be viewed <a href="pdfs/contemporary-other-artist-book.pdf">here</a>
 </p>
 </div>
