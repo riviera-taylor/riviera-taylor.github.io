@@ -3,17 +3,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-05-06 Sat 19:21 -->
+<!-- 2023-05-07 Sun 11:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Making a Website with Org Mode and Git</title>
 <meta name="author" content="Riviera Taylor" />
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="css/style.css" /> <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
 <div id="preamble" class="status">
-
 <!--Navigation bar-->
 <div id="nav-placeholder">
 
@@ -25,48 +25,49 @@ $(function(){
 });
 </script>
 <!--end of Navigation bar-->
+<p class="pubdate" style="visibility:hidden;" > Friday, May 5, 2023 </p>
 </div>
 <div id="content" class="content">
 <h1 class="title">Making a Website with Org Mode and Git</h1>
 
-<div id="outline-container-orgb277942" class="outline-2">
-<h2 id="orgb277942">Introduction</h2>
-<div class="outline-text-2" id="text-orgb277942">
+<div id="outline-container-orgcd9f920" class="outline-2">
+<h2 id="orgcd9f920">Introduction</h2>
+<div class="outline-text-2" id="text-orgcd9f920">
 <p>
 I have decided to produce a website for myself using Emacs' Org Mode and Git. This page illustrates how I am doing this.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org36ae6fa" class="outline-2">
-<h2 id="org36ae6fa">Emacs' Org Mode</h2>
-<div class="outline-text-2" id="text-org36ae6fa">
+<div id="outline-container-orgb055d9f" class="outline-2">
+<h2 id="orgb055d9f">Emacs' Org Mode</h2>
+<div class="outline-text-2" id="text-orgb055d9f">
 <p>
 Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org0a00481" class="outline-2">
-<h2 id="org0a00481">Git</h2>
-<div class="outline-text-2" id="text-org0a00481">
+<div id="outline-container-org248536c" class="outline-2">
+<h2 id="org248536c">Git</h2>
+<div class="outline-text-2" id="text-org248536c">
 <p>
 Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7461ad3" class="outline-2">
-<h2 id="org7461ad3">Coding for Org Mode</h2>
-<div class="outline-text-2" id="text-org7461ad3">
+<div id="outline-container-orga1ae3af" class="outline-2">
+<h2 id="orga1ae3af">Coding for Org Mode</h2>
+<div class="outline-text-2" id="text-orga1ae3af">
 <p>
 Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
 </p>
 </div>
 
-<div id="outline-container-orgc454cd1" class="outline-3">
-<h3 id="orgc454cd1"><code>tempo-template-org-headers</code></h3>
-<div class="outline-text-3" id="text-orgc454cd1">
+<div id="outline-container-org21bdef0" class="outline-3">
+<h3 id="org21bdef0"><code>tempo-template-org-headers</code></h3>
+<div class="outline-text-3" id="text-org21bdef0">
 <div class="org-src-container">
 <pre class="src src-elisp">(<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">tempo</span>)
 (<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">org-tempo</span>)
@@ -106,9 +107,9 @@ When called, the function automatically inserts the current date according to Em
 </div>
 
 
-<div id="outline-container-orgfe34d88" class="outline-3">
-<h3 id="orgfe34d88">org-publish-project-alist</h3>
-<div class="outline-text-3" id="text-orgfe34d88">
+<div id="outline-container-org9666c5d" class="outline-3">
+<h3 id="org9666c5d">org-publish-project-alist</h3>
+<div class="outline-text-3" id="text-org9666c5d">
 <div class="org-src-container">
 <pre class="src src-elisp">(<span style="color: #b4fa70;">require</span> '<span style="color: #e9b2e3;">ox-publish</span>)
 (<span style="color: #b4fa70;">setq</span> org-publish-project-alist
@@ -161,9 +162,9 @@ When called, the function automatically inserts the current date according to Em
 </div>
 </div>
 
-<div id="outline-container-orge26e3e9" class="outline-2">
-<h2 id="orge26e3e9">The Knack</h2>
-<div class="outline-text-2" id="text-orge26e3e9">
+<div id="outline-container-org690a078" class="outline-2">
+<h2 id="org690a078">The Knack</h2>
+<div class="outline-text-2" id="text-org690a078">
 <p>
 The trick is <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
 </p>
