@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2023-05-08 Mon 17:22 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Making a Website with Org Mode and Git</title>
+<meta name="author" content="Riviera Taylor" />
+<meta name="description" content="I have decided to produce a website for myself using Emacs' Org Mode and Git. This page illustrates how I am doing this" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="../css/stylesheet.css" type="text/css">
+<link rel="alternate" type="application/rss+xml" href="rss.xml" title="RSS feed">
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+<link rel="alternate">
+<meta property="og:title" content="Making a Website with Org Mode and Git">
+<meta property="og:url" content="index.html/may-05-making-a-website.html">
+<meta property="og:description" content="I have decided to produce a website for myself using Emacs' Org Mode and Git. This page illustrates how I am doing this">
+
+<meta property="og:type" content="article">
+<meta property="article:author" content="Riviera Taylor">
+<meta property="article:published_time">
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="nav">
+  <ul class="sidenav">
+    <li><a href="/" >Home</a></li>
+    <li><a href="../projects.html">Projects</a></li>
+    <li><a href="sitemap.html">Blog</a></li>
+    <li><a href="../rss.xml">RSS Feed</a></li>
+    <li><a href="../cv.html" >CV</a></li>  
+  </ul>
+</div>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">Making a Website with Org Mode and Git</h1>
+<p class="subtitle" role="doc-subtitle">8 May 2023</p>
+</header><div id="outline-container-org63211e2" class="outline-1">
+<h1 id="org63211e2">Emacs' Org Mode</h1>
+<div class="outline-text-1" id="text-org63211e2">
+<p>
+Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2a0ccee" class="outline-1">
+<h1 id="org2a0ccee">Git</h1>
+<div class="outline-text-1" id="text-org2a0ccee">
+<p>
+Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3e72db5" class="outline-1">
+<h1 id="org3e72db5">Coding for Org Mode</h1>
+<div class="outline-text-1" id="text-org3e72db5">
+<p>
+Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
+</p>
+</div>
+
+<div id="outline-container-org915d331" class="outline-2">
+<h2 id="org915d331"><code>tempo-template-org-headers</code></h2>
+<div class="outline-text-2" id="text-org915d331">
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">tempo</span>)
+(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-tempo</span>)
+(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">calendar</span>)
+
+  (<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">insdate-insert-current-date</span> (<span style="font-weight: bold; text-decoration: underline;">&amp;optional</span> omit-day-of-week-p)
+    <span style="font-style: italic;">"Insert today's date using the current locale.</span>
+<span style="font-style: italic;">  With a prefix argument, the date is inserted without the day of</span>
+<span style="font-style: italic;">  the week."</span>
+    (<span style="font-weight: bold;">interactive</span> <span style="font-style: italic;">"P*"</span>)
+    (insert (calendar-date-string (calendar-current-date) nil
+                                  omit-day-of-week-p)))
+
+(<span style="font-weight: bold;">setq</span> tempo-interactive t)
+(tempo-define-template <span style="font-style: italic;">"org-headers"</span>
+                       '(<span style="font-style: italic;">"#+DATE: "</span> (insdate-insert-current-date) n
+                         <span style="font-style: italic;">"#+AUTHOR: "</span> (p <span style="font-style: italic;">"Author: "</span> author) n
+                         <span style="font-style: italic;">"#+TITLE: "</span> (p <span style="font-style: italic;">"Title: "</span> title) n
+                         <span style="font-style: italic;">"#+SUBTITLE: "</span> (p <span style="font-style: italic;">"Subtitle: "</span> subtitle) n)
+                       <span style="font-style: italic;">"org-headers"</span>
+                       <span style="font-style: italic;">"Insert org headers"</span>)
+</pre>
+</div>
+
+<p>
+When called, the function automatically inserts the current date according to Emacs' calendar. Then it prompts the user for the author's name, the title of the document and the subtitle. Such information is input interactively by the user via the mini-buffer. The output of the command might look something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">#+DATE: Friday, May 5, 2023
+#+AUTHOR: Riviera Taylor
+#+TITLE: <span style="font-weight: bold;">Foo</span>
+#+SUBTITLE: Bar
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf63a467" class="outline-2">
+<h2 id="orgf63a467">org-publish-project-alist</h2>
+<div class="outline-text-2" id="text-orgf63a467">
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">ox-publish</span>)
+(<span style="font-weight: bold;">setq</span> org-publish-project-alist
+      '(
+        (<span style="font-style: italic;">"website-entries"</span>
+        <span style="font-weight: bold;">:base-directory</span> <span style="font-style: italic;">"~/website"</span>
+        <span style="font-weight: bold;">:base-extension</span> <span style="font-style: italic;">"org"</span>
+        <span style="font-weight: bold;">:publishing-directory</span> <span style="font-style: italic;">"~/website_public"</span>
+        <span style="font-weight: bold;">:recursive</span> t
+        <span style="font-weight: bold;">:publishing-function</span> org-ref-html-publish-to-html <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">as defined above</span>
+        <span style="font-weight: bold;">:headline-levels</span> 4
+        <span style="font-weight: bold;">:auto-preamble</span> t
+        <span style="font-weight: bold;">:html-head</span> <span style="font-style: italic;">"&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /&gt; &lt;script src=\"https://code.jquery.com/jquery-1.10.2.js\"&gt;&lt;/script&gt;"</span>
+                 <span style="font-weight: bold;">:html-preamble</span> <span style="font-style: italic;">"</span>
+<span style="font-style: italic;">&lt;!--Navigation bar--&gt;</span>
+<span style="font-style: italic;">&lt;div id=\"nav-placeholder\"&gt;</span>
+
+<span style="font-style: italic;">&lt;/div&gt;</span>
+
+<span style="font-style: italic;">&lt;script&gt;</span>
+<span style="font-style: italic;">$(function(){</span>
+<span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+<span style="font-style: italic;">});</span>
+<span style="font-style: italic;">&lt;/script&gt;</span>
+<span style="font-style: italic;">&lt;!--end of Navigation bar--&gt;"</span>)
+        (<span style="font-style: italic;">"website-static"</span>
+         <span style="font-weight: bold;">:base-directory</span> <span style="font-style: italic;">"~/website"</span>
+         <span style="font-weight: bold;">:base-extension</span> <span style="font-style: italic;">"css</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">js</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">png</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">jpg</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">gif</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">pdf</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">mp3</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">ogg</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">|</span><span style="font-style: italic;">swf"</span>
+         <span style="font-weight: bold;">:publishing-directory</span> <span style="font-style: italic;">"~/website_public/"</span>
+         <span style="font-weight: bold;">:recursive</span> t
+         <span style="font-weight: bold;">:publishing-function</span> org-publish-attachment
+         <span style="font-weight: bold;">:html-head</span> <span style="font-style: italic;">"&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /&gt; &lt;script src=\"https://code.jquery.com/jquery-1.10.2.js\"&gt;&lt;/script&gt;"</span>
+         <span style="font-weight: bold;">:html-preamble</span> <span style="font-style: italic;">"</span>
+<span style="font-style: italic;">&lt;!--Navigation bar--&gt;</span>
+<span style="font-style: italic;">&lt;div id=\"nav-placeholder\"&gt;</span>
+
+<span style="font-style: italic;">&lt;/div&gt;</span>
+
+<span style="font-style: italic;">&lt;script&gt;</span>
+<span style="font-style: italic;">$(function(){</span>
+<span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+<span style="font-style: italic;">});</span>
+<span style="font-style: italic;">&lt;/script&gt;</span>
+<span style="font-style: italic;">&lt;!--end of Navigation bar--&gt;"</span>)
+        (<span style="font-style: italic;">"website"</span> <span style="font-weight: bold;">:components</span> (<span style="font-style: italic;">"website-entries"</span> <span style="font-style: italic;">"website-static"</span>))
+        ))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0e944d9" class="outline-1">
+<h1 id="org0e944d9">The Knack</h1>
+<div class="outline-text-1" id="text-org0e944d9">
+<p>
+The trick is <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<footer>
+</footer>
+</div>
+</body>
+</html>
