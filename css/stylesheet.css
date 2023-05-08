@@ -13,6 +13,7 @@
   .subtitle { text-align: center;
               font-size: medium;
               font-weight: bold;
+	      visibility: hidden;
               margin-top:0; }
   .todo   { font-family: monospace; color: red; }
   .done   { font-family: monospace; color: green; }
