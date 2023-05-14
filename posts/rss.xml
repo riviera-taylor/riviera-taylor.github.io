@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Riviera's blog</title>
+<description>My blog in RSS</description>
+<generator>Emacs webfeeder.el</generator>
+<link>https://rivierataylor.info/posts</link>
+<atom:link href="https://rivierataylor.info/posts/rss.xml" rel="self" type="application/rss+xml"/>
+<lastBuildDate>Sun, 14 May 2023 11:24:02 +0100</lastBuildDate>
+<item>
+  <title>FLOSS document production workflow</title>
+  <description><![CDATA[<div id="content" class="content">
+ <div id="outline-container-orgce8b032" class="outline-1">
+ <h1 id="orgce8b032"> <span class="section-number-1">1.</span> Introduction</h1>
+ <div class="outline-text-1" id="text-1">
+ <p>
+This webpage illustrates a way to setup a document production tool-chain using free / libre / open source software (FLOSS). You'll need to be running  <a href="#org7c752e7">Debian GNU/Linux</a>. We'll then  <a href="#orgbb0897a">install fish</a> and  <a href="#orgfc4599c">optionally set it as the default login shell</a>. Next we'll  <a href="#org93f2ba5">setup a BibTeX file</a> for a Zotero library. Then we'll install  <a href="#org3962305">ConTeXt</a> and its modules as well as  <a href="#orge77ac22">texlive</a>. Afterwards, we'll move onto installing  <a href="#org3871629">install Emacs and Git</a>. We'll need to  <a href="#orgbda8968">configure Emacs</a> to interface with some packages such as helm and org-ref. Then we'll  <a href="#org11e85ea">install ghcup</a> to install the latest version of pandoc via cabal. Finally we'll discuss  <a href="#org76c435f">how to use the tool-chain</a>.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org7c752e7" class="outline-1">
+ <h1 id="org7c752e7"> <span class="section-number-1">2.</span> Install Debian</h1>
+ <div class="outline-text-1" id="text-2">
+ <p>
+I'm running Debian as a virtual machine using gnome-boxes. For information on how to install Debian see  <a href="https://www.debian.org/distrib/">this webpage</a>.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orgbb0897a" class="outline-1">
+ <h1 id="orgbb0897a"> <span class="section-number-1">3.</span> Install Fish</h1>
+ <div class="outline-text-1" id="text-3">
+ <div class="org-src-container">
+ <pre class="src src-shell">$ sudo apt-get install fish
+</pre>
+</div>
+
+ <p>
+It is now possible to execute the command  <code>fish</code>, launching a fish session in the terminal. If you want to change your default shell to fish, as I have, follow along below. 
+</p>
+</div>
+
+ <div id="outline-container-orgfc4599c" class="outline-2">
+ <h2 id="orgfc4599c"> <span class="section-number-2">3.1.</span> Gone fishing</h2>
+ <div class="outline-text-2" id="text-3-1">
+ <p>
+Execute the command  <code>which fish</code> to confirm the location of the fish executable. On my system, installing fish via the apt package manager installed the fish executable to  <code>/usr/bin/fish</code>. However, you should check whether this is the case on your system. Because of the location of the executable at  <code>/usr/bin/fish</code>, I'm executing the following commands below. Make sure to replace  <code>/usr/bin/fish</code> with the location of the fish executable, in accordance with the output of  <code>which fish</code>.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ echo /usr/bin/fish | sudo tee -a /etc/shells
+$ chsh -s /usr/bin/fish
+</pre>
+</div>
+
+ <p>
+Logout and log back in again. Open up a terminal and confirm you see the fish welcome message.
+</p>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org93f2ba5" class="outline-1">
+ <h1 id="org93f2ba5"> <span class="section-number-1">4.</span> Setup a BibTeX file</h1>
+ <div class="outline-text-1" id="text-4">
+</div>
+ <div id="outline-container-org9855709" class="outline-2">
+ <h2 id="org9855709"> <span class="section-number-2">4.1.</span> Install Zotero</h2>
+ <div class="outline-text-2" id="text-4-1">
+ <p>
+The easiest way to install Zotero on Debian is as follows:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ wget -qO- https://raw.githubusercontent.com/retorquere/zotero-deb/master/install.sh | sudo bash
+$ sudo apt update
+$ sudo apt install zotero
+</pre>
+</div>
+</div>
+
+ <div id="outline-container-org02f66c7" class="outline-3">
+ <h3 id="org02f66c7"> <span class="section-number-3">4.1.1.</span> Setup Zotero Syncing</h3>
+ <div class="outline-text-3" id="text-4-1-1">
+ <p>
+To set up syncing with Zotero click on the green circular arrow in the top right above the item view pane. This should generate an error message encouraging you to open sync preferences. Open sync preferences and enter your Zotero login details into the boxes.
+</p>
+
+
+ <figure id="org80c8852"> <img src="../img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png"></img></figure></div>
+</div>
+
+ <div id="outline-container-orge455f8c" class="outline-3">
+ <h3 id="orge455f8c"> <span class="section-number-3">4.1.2.</span> Install Better BibTeX Plugin</h3>
+ <div class="outline-text-3" id="text-4-1-2">
+ <p>
+Head over to  <a href="https://github.com/retorquere/zotero-better-bibtex/releases/latest">this GitHub Repository</a> and download the latest version of the Better BibTeX plug-in for Zotero. This plug-in will assign citation keys to every item in the Zotero library. It also enables keeping updated a BibTeX file complete with those citation keys. I recommend keeping the plug-in's default settings for generating citation keys.
+</p>
+
+ <p>
+Open Zotero and go to the tools tab of the menu, select add-ons
+</p>
+
+
+ <figure id="org80426c4"> <img src="../img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png"></img></figure> <p>
+In the Add-ons manager window select the gear icon drop-down menu and select Install add-ons from file
+</p>
+
+
+ <figure id="orgfc85b5a"> <img src="../img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png"></img></figure> <p>
+Navigate to your downloads file and select the  <code>.xpi</code> add-on to install, then select open
+</p>
+
+
+ <figure id="org03af751"> <img src="../img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png"></img></figure> <p>
+Hit install now, then restart Zotero when prompted
+</p>
+
+
+ <figure id="org495255a"> <img src="../img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png"></img></figure></div>
+</div>
+
+ <div id="outline-container-org3cda1f3" class="outline-3">
+ <h3 id="org3cda1f3"> <span class="section-number-3">4.1.3.</span> Exporting the library</h3>
+ <div class="outline-text-3" id="text-4-1-3">
+ <p>
+At the terminal execute the following command
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ mkdir ~/Bibliography
+</pre>
+</div>
+
+ <p>
+Back in Zotero, select My Library in the panel on the right. Then click on Export Library under the file tab in the menu bar
+</p>
+
+
+ <figure id="org3c0c0f0"> <img src="../img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png"></img></figure> <p>
+In the drop down menu, select Better BibTeX from the available options
+</p>
+
+
+ <figure id="orgb006cbf"> <img src="../img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png"></img></figure> <p>
+Check the box that says keep updated. Rename the file to  <code>my-library.bib</code> and save it in the bibliography folder in your home directory
+</p>
+
+
+ <figure id="org76f172f"> <img src="../img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png"></img></figure></div>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org3962305" class="outline-1">
+ <h1 id="org3962305"> <span class="section-number-1">5.</span> Install ConTeXt</h1>
+ <div class="outline-text-1" id="text-5">
+ <p>
+Having set up a BibTeX file for items in the Zotero library, it's time to install ConTeXt LuaMetaTeX and its modules. To do this we need to execute the following commands at the terminal.  <code>$</code> denotes a shell prompt at the terminal, in fish the default shell prompt looks like  <code>></code>. 
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ mkdir $ <span style="font-weight: bold; font-style: italic;">HOME</span>/context
+$ cd $ <span style="font-weight: bold; font-style: italic;">HOME</span>/context
+$ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
+$ unzip context-linux-64.zip
+$ rsync --recursive --links --times --info=progress2,remove,symsafe,flist,del --human-readable --del rsync://contextgarden.net/minimals/current/modules/ modules
+$ mkdir -p tex
+$ rsync -rlt --exclude=/VERSION --del modules/*/ tex/texmf-modules
+$ sh ./install.sh
+</pre>
+</div>
+
+ <p>
+This will provide a standalone installation of the latest version of ConTeXt LuaMetaTeX including modules.
+</p>
+</div>
+
+ <div id="outline-container-org773bb18" class="outline-2">
+ <h2 id="org773bb18"> <span class="section-number-2">5.1.</span> Adding ConTeXt to the path</h2>
+ <div class="outline-text-2" id="text-5-1">
+ <p>
+Depending on your version of fish you will either have the command  <code>fish_add_path</code> or you will not. Run  <code>fish --version</code> in a terminal to confirm what version of fish you have.
+</p>
+</div>
+
+ <div id="outline-container-org8e3d96a" class="outline-3">
+ <h3 id="org8e3d96a"> <span class="section-number-3">5.1.1.</span>  <code>fish_add_path</code> (fish 3.2.0 or later)</h3>
+ <div class="outline-text-3" id="text-5-1-1">
+ <p>
+If you are running fish 3.2.0 or later you should have the command  <code>fish_add_path</code> which enables one to add paths to fish.
+</p>
+
+ <p>
+Execute the following line in a fish session at the terminal
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ fish_add_path /home/username/context/tex/texmf-linux-64/bin
+</pre>
+</div>
+
+ <p>
+Ensure to replace  <code>username</code> with your username. You may need to logout and login again for the changes to become active.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org5ae853d" class="outline-3">
+ <h3 id="org5ae853d"> <span class="section-number-3">5.1.2.</span> Editing a configuration file (fish 3.1.x or earlier)</h3>
+ <div class="outline-text-3" id="text-5-1-2">
+ <p>
+Fish has several configuration files which it consults on startup. If your version of fish is 3.1.x or earlier, you don't have the command  <code>fish_add_path</code> but don't worry, edit the configuration files. This is to tell fish about the existence of the software that has been installed. The configuration file to edit is located at  <code>~/.config/fish/config.fish</code>.
+</p>
+
+ <p>
+Execute the following command at the terminal
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ nano ~/.config/fish/config.fish
+</pre>
+</div>
+
+ <p>
+Edit the file so that it reads as follows, or to wherever it was you installed ConTeXt.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-conf">if status --is-login
+    set -x PATH $PATH /home/username/context/tex/texmf-linux-64/bin
+end
+</pre>
+</div>
+
+ <p>
+Ensure to replace  <code>username</code> with your username. Save the file then logout and login again. This will add ConTeXt to the path.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-orge77ac22" class="outline-1">
+ <h1 id="orge77ac22"> <span class="section-number-1">6.</span> Install texlive</h1>
+ <div class="outline-text-1" id="text-6">
+ <div class="org-src-container">
+ <pre class="src src-shell">$ sudo apt-get install texlive 
+</pre>
+</div>
+</div>
+</div>
+
+
+ <div id="outline-container-org3871629" class="outline-1">
+ <h1 id="org3871629"> <span class="section-number-1">7.</span> Install Emacs and Git</h1>
+ <div class="outline-text-1" id="text-7">
+ <div class="org-src-container">
+ <pre class="src src-shell">$ sudo apt-get install emacs git
+</pre>
+</div>
+</div>
+
+ <div id="outline-container-orgbda8968" class="outline-2">
+ <h2 id="orgbda8968"> <span class="section-number-2">7.1.</span> Configure Emacs</h2>
+ <div class="outline-text-2" id="text-7-1">
+ <p>
+In this section I discuss how to configure Emacs with various packages relevant to this document production tool-chain. Edit your  <code>.emacs</code> file, if it doesn't already exist create it with the following:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ emacs ~/.emacs
+</pre>
+</div>
+</div>
+
+ <div id="outline-container-org03ba16d" class="outline-3">
+ <h3 id="org03ba16d"> <span class="section-number-3">7.1.1.</span> straight-use-package</h3>
+ <div class="outline-text-3" id="text-7-1-1">
+ <p>
+Add the following lines of code to your .emacs file (or init file)
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-lisp">( <span style="font-weight: bold;">defvar</span>  <span style="font-weight: bold; font-style: italic;">bootstrap-version</span>)
+
+( <span style="font-weight: bold;">let</span> ((bootstrap-file
+     (expand-file-name  <span style="font-style: italic;">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
+    (bootstrap-version 5))
+( <span style="font-weight: bold;">unless</span> (file-exists-p bootstrap-file)
+  ( <span style="font-weight: bold;">with-current-buffer</span>
+      (url-retrieve-synchronously
+        <span style="font-style: italic;">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
+       'silent 'inhibit-cookies)
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+(load bootstrap-file nil 'nomessage))
+</pre>
+</div>
+
+ <p>
+Then close and restart Emacs
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org86f7dfe" class="outline-3">
+ <h3 id="org86f7dfe"> <span class="section-number-3">7.1.2.</span> Installing org-ref and helm</h3>
+ <div class="outline-text-3" id="text-7-1-2">
+ <p>
+At this point, let's use straight-use-package to install different pieces of software such as org-ref, helm and use-package. Append the following lines of code to your .emacs file.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-lisp">(straight-use-package 'org-ref)
+(straight-use-package 'helm)
+(straight-use-package 'helm-bibtex)
+(straight-use-package 'use-package)
+</pre>
+</div>
+
+ <p>
+Save the file and restart Emacs to clone the packages.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org95e9cb9" class="outline-3">
+ <h3 id="org95e9cb9"> <span class="section-number-3">7.1.3.</span> Configuring helm</h3>
+ <div class="outline-text-3" id="text-7-1-3">
+ <p>
+Append the following lines to your .emacs.
+</p>
+ <div class="org-src-container">
+ <pre class="src src-lisp">(global-set-key (kbd  <span style="font-style: italic;">"M-x"</span>) #'helm-M-x)
+(global-set-key (kbd  <span style="font-style: italic;">"C-x r b"</span>) #'helm-filtered-bookmarks)
+(global-set-key (kbd  <span style="font-style: italic;">"C-x C-f"</span>) #'helm-find-files)
+
+(helm-mode 1)
+</pre>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org598aedc" class="outline-3">
+ <h3 id="org598aedc"> <span class="section-number-3">7.1.4.</span> Configuring helm-bibtex</h3>
+ <div class="outline-text-3" id="text-7-1-4">
+ <p>
+The next lines to add to the .emacs file are as follows:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-lisp"> <span style="font-weight: bold; font-style: italic;">;; </span> <span style="font-weight: bold; font-style: italic;">org-ref</span>
+(use-package helm-bibtex
+   <span style="font-weight: bold;">:init</span>
+  (setq bibtex-completion-bibliography '( <span style="font-style: italic;">"~/Bibliography/my-library.bib"</span>)
+        bibtex-completion-library-path '( <span style="font-style: italic;">"~/Bibliography/bibtex-pdfs/"</span>)
+        bibtex-completion-notes-path  <span style="font-style: italic;">"~/Bibliography/notes/"</span>
+        bibtex-completion-notes-template-multiple-files  <span style="font-style: italic;">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"</span>
+        bibtex-completion-additional-search-fields '(keywords)
+        bibtex-completion-display-formats
+        '((article       .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
+          (inbook        .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
+          (incollection  .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (inproceedings .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (t             .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
+        bibtex-completion-pdf-open-function
+        ( <span style="font-weight: bold;">lambda</span> (fpath)
+          (call-process  <span style="font-style: italic;">"open"</span> nil 0 nil fpath))))
+</pre>
+</div>
+
+ <p>
+These lines of code will configure helm-bibtex
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org6b2a7f9" class="outline-3">
+ <h3 id="org6b2a7f9"> <span class="section-number-3">7.1.5.</span> Configuring org-ref and org-ref-helm</h3>
+ <div class="outline-text-3" id="text-7-1-5">
+ <p>
+Now we need to configure org-ref; add the following lines of code to your .emacs file.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-lisp">(use-package org-ref
+   <span style="font-weight: bold;">:ensure</span> nil
+ <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+   <span style="font-weight: bold;">:init</span>
+ <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">(add-to-list 'load-path</span>
+ <span style="font-weight: bold; font-style: italic;">;;</span> <span style="font-weight: bold; font-style: italic;">             (expand-file-name "org-ref" scimax-dir))</span>
+  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">bibtex</span>)
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator  <span style="font-style: italic;">"-"</span>
+        bibtex-autokey-year-title-separator  <span style="font-style: italic;">"-"</span>
+        bibtex-autokey-titleword-separator  <span style="font-style: italic;">"-"</span>
+        bibtex-autokey-titlewords 2
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-autokey-titleword-length 5)
+  (define-key bibtex-mode-map (kbd  <span style="font-style: italic;">"H-b"</span>) 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd  <span style="font-style: italic;">"C-c ]"</span>) 'org-ref-cite-insert-helm)
+  (define-key org-mode-map (kbd  <span style="font-style: italic;">"s-["</span>) 'org-ref-insert-link-hydra/body)
+  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-helm</span>)
+  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-arxiv</span>)
+  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-scopus</span>)
+  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-wos</span>))
+</pre>
+</div>
+
+ <p>
+To configure org-ref-helm, add the following lines of code
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-lisp">(use-package org-ref-helm
+   <span style="font-weight: bold;">:ensure</span> nil
+ <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+   <span style="font-weight: bold;">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+              org-ref-insert-cite-function 'org-ref-cite-insert-helm
+              org-ref-insert-label-function 'org-ref-insert-label-link
+              org-ref-insert-ref-function 'org-ref-insert-ref-link
+              org-ref-cite-onclick-function ( <span style="font-weight: bold;">lambda</span> (_) (org-ref-citation-hydra/body))))
+</pre>
+</div>
+
+ <p>
+Restart Emacs.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org73f3e43" class="outline-1">
+ <h1 id="org73f3e43"> <span class="section-number-1">8.</span> Install Pandoc via ghcup</h1>
+ <div class="outline-text-1" id="text-8">
+</div>
+ <div id="outline-container-org11e85ea" class="outline-2">
+ <h2 id="org11e85ea"> <span class="section-number-2">8.1.</span> Install ghcup</h2>
+ <div class="outline-text-2" id="text-8-1">
+ <p>
+Open a terminal and enter the following command
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ curl --proto  <span style="font-style: italic;">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+</pre>
+</div>
+
+ <p>
+Follow the instructions for your system. You may need to log in and out again for the shell to load cabal once the installation has completed. Prepend to the path if you are prompted to do so. Otherwise you may need to configure the path. If so, edit  <code>~/.config/fish/config.fish</code> to read as follows:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-conf">if status --is-login
+    set -x PATH $PATH /home/username/context/tex/texmf-linux-64/bin
+    set -x PATH $PATH /home/username/.cabal/bin    
+end
+</pre>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org5a1af47" class="outline-2">
+ <h2 id="org5a1af47"> <span class="section-number-2">8.2.</span> Installing Pandoc</h2>
+ <div class="outline-text-2" id="text-8-2">
+ <div class="org-src-container">
+ <pre class="src src-shell">$ cabal update
+$ cabal install pandoc-cli
+</pre>
+</div>
+
+ <p>
+You may need to install  <code>pkg-config</code> or other dependencies such as  <code>zlib1g-dev</code> via the aptitude package manager. I cannot predict what might be missing on your system. The process may take some time and disk space.
+</p>
+
+ <p>
+Once the installation has finished run the command  <code>which pandoc</code> to confirm that the executable is on the path.
+</p>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org76c435f" class="outline-1">
+ <h1 id="org76c435f"> <span class="section-number-1">9.</span> Using the tool-chain</h1>
+ <div class="outline-text-1" id="text-9">
+ <p>
+Having installed and configured the software it is time to write in org mode. There is a workflow which connects the Zotero database to org-mode. Org-ref works in tandem with BibTeX to generate bibliographies, cross-references and inline citations. Pandoc then supports with exporting to ConTeXt, but publishing to html is an alternative way of using the software. 
+</p>
+</div>
+</div>
+</div>]]></description>
+  <link>https://rivierataylor.info/posts/may-03-floss-document-production-workflow.html</link>
+  <guid isPermaLink="false">https://rivierataylor.info/posts/may-03-floss-document-production-workflow.html</guid>
+  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
+</item>
+<item>
+  <title>Ideas</title>
+  <description><![CDATA[<div id="content" class="content">
+ <div id="outline-container-org54732cc" class="outline-1">
+ <h1 id="org54732cc"> <span class="done DONE">DONE</span> Link the dotemacs file properly and setup publishing workflow</h1>
+</div>
+</div>]]></description>
+  <link>https://rivierataylor.info/posts/may-04-ideas.html</link>
+  <guid isPermaLink="false">https://rivierataylor.info/posts/may-04-ideas.html</guid>
+  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
+</item>
+<item>
+  <title>Making a Website with Org Mode and Git</title>
+  <description><![CDATA[<div id="content" class="content">
+ <div id="outline-container-org63211e2" class="outline-1">
+ <h1 id="org63211e2">Emacs' Org Mode</h1>
+ <div class="outline-text-1" id="text-org63211e2">
+ <p>
+Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org2a0ccee" class="outline-1">
+ <h1 id="org2a0ccee">Git</h1>
+ <div class="outline-text-1" id="text-org2a0ccee">
+ <p>
+Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org3e72db5" class="outline-1">
+ <h1 id="org3e72db5">Coding for Org Mode</h1>
+ <div class="outline-text-1" id="text-org3e72db5">
+ <p>
+Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
+</p>
+</div>
+
+ <div id="outline-container-org915d331" class="outline-2">
+ <h2 id="org915d331"> <code>tempo-template-org-headers</code></h2>
+ <div class="outline-text-2" id="text-org915d331">
+ <div class="org-src-container">
+ <pre class="src src-elisp">( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">tempo</span>)
+( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-tempo</span>)
+( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">calendar</span>)
+
+  ( <span style="font-weight: bold;">defun</span>  <span style="font-weight: bold;">insdate-insert-current-date</span> ( <span style="font-weight: bold; text-decoration: underline;">&optional</span> omit-day-of-week-p)
+     <span style="font-style: italic;">"Insert today's date using the current locale.</span>
+ <span style="font-style: italic;">  With a prefix argument, the date is inserted without the day of</span>
+ <span style="font-style: italic;">  the week."</span>
+    ( <span style="font-weight: bold;">interactive</span>  <span style="font-style: italic;">"P*"</span>)
+    (insert (calendar-date-string (calendar-current-date) nil
+                                  omit-day-of-week-p)))
+
+( <span style="font-weight: bold;">setq</span> tempo-interactive t)
+(tempo-define-template  <span style="font-style: italic;">"org-headers"</span>
+                       '( <span style="font-style: italic;">"#+DATE: "</span> (insdate-insert-current-date) n
+                          <span style="font-style: italic;">"#+AUTHOR: "</span> (p  <span style="font-style: italic;">"Author: "</span> author) n
+                          <span style="font-style: italic;">"#+TITLE: "</span> (p  <span style="font-style: italic;">"Title: "</span> title) n
+                          <span style="font-style: italic;">"#+SUBTITLE: "</span> (p  <span style="font-style: italic;">"Subtitle: "</span> subtitle) n)
+                        <span style="font-style: italic;">"org-headers"</span>
+                        <span style="font-style: italic;">"Insert org headers"</span>)
+</pre>
+</div>
+
+ <p>
+When called, the function automatically inserts the current date according to Emacs' calendar. Then it prompts the user for the author's name, the title of the document and the subtitle. Such information is input interactively by the user via the mini-buffer. The output of the command might look something like this:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-org">#+DATE: Friday, May 5, 2023
+#+AUTHOR: Riviera Taylor
+#+TITLE:  <span style="font-weight: bold;">Foo</span>
+#+SUBTITLE: Bar
+</pre>
+</div>
+</div>
+</div>
+
+
+ <div id="outline-container-orgf63a467" class="outline-2">
+ <h2 id="orgf63a467">org-publish-project-alist</h2>
+ <div class="outline-text-2" id="text-orgf63a467">
+ <div class="org-src-container">
+ <pre class="src src-elisp">( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">ox-publish</span>)
+( <span style="font-weight: bold;">setq</span> org-publish-project-alist
+      '(
+        ( <span style="font-style: italic;">"website-entries"</span>
+         <span style="font-weight: bold;">:base-directory</span>  <span style="font-style: italic;">"~/website"</span>
+         <span style="font-weight: bold;">:base-extension</span>  <span style="font-style: italic;">"org"</span>
+         <span style="font-weight: bold;">:publishing-directory</span>  <span style="font-style: italic;">"~/website_public"</span>
+         <span style="font-weight: bold;">:recursive</span> t
+         <span style="font-weight: bold;">:publishing-function</span> org-ref-html-publish-to-html  <span style="font-weight: bold; font-style: italic;">;; </span> <span style="font-weight: bold; font-style: italic;">as defined above</span>
+         <span style="font-weight: bold;">:headline-levels</span> 4
+         <span style="font-weight: bold;">:auto-preamble</span> t
+         <span style="font-weight: bold;">:html-head</span>  <span style="font-style: italic;">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
+                  <span style="font-weight: bold;">:html-preamble</span>  <span style="font-style: italic;">"</span>
+ <span style="font-style: italic;"><!--Navigation bar--></span>
+ <span style="font-style: italic;"><div id=\"nav-placeholder\"></span>
+
+ <span style="font-style: italic;"></div></span>
+
+ <span style="font-style: italic;"><script></span>
+ <span style="font-style: italic;">$(function(){</span>
+ <span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+ <span style="font-style: italic;">});</span>
+ <span style="font-style: italic;"></script></span>
+ <span style="font-style: italic;"><!--end of Navigation bar-->"</span>)
+        ( <span style="font-style: italic;">"website-static"</span>
+          <span style="font-weight: bold;">:base-directory</span>  <span style="font-style: italic;">"~/website"</span>
+          <span style="font-weight: bold;">:base-extension</span>  <span style="font-style: italic;">"css</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">js</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">png</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">jpg</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">gif</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">pdf</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">mp3</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">ogg</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">swf"</span>
+          <span style="font-weight: bold;">:publishing-directory</span>  <span style="font-style: italic;">"~/website_public/"</span>
+          <span style="font-weight: bold;">:recursive</span> t
+          <span style="font-weight: bold;">:publishing-function</span> org-publish-attachment
+          <span style="font-weight: bold;">:html-head</span>  <span style="font-style: italic;">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
+          <span style="font-weight: bold;">:html-preamble</span>  <span style="font-style: italic;">"</span>
+ <span style="font-style: italic;"><!--Navigation bar--></span>
+ <span style="font-style: italic;"><div id=\"nav-placeholder\"></span>
+
+ <span style="font-style: italic;"></div></span>
+
+ <span style="font-style: italic;"><script></span>
+ <span style="font-style: italic;">$(function(){</span>
+ <span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+ <span style="font-style: italic;">});</span>
+ <span style="font-style: italic;"></script></span>
+ <span style="font-style: italic;"><!--end of Navigation bar-->"</span>)
+        ( <span style="font-style: italic;">"website"</span>  <span style="font-weight: bold;">:components</span> ( <span style="font-style: italic;">"website-entries"</span>  <span style="font-style: italic;">"website-static"</span>))
+        ))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org0e944d9" class="outline-1">
+ <h1 id="org0e944d9">The Knack</h1>
+ <div class="outline-text-1" id="text-org0e944d9">
+ <p>
+The trick is  <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
+</p>
+</div>
+</div>
+</div>]]></description>
+  <link>https://rivierataylor.info/posts/may-05-making-a-website.html</link>
+  <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-making-a-website.html</guid>
+  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
+</item>
+<item>
+  <title>Notes</title>
+  <description><![CDATA[<div id="content" class="content">
+ <div id="outline-container-org8e43915" class="outline-1">
+ <h1 id="org8e43915">Writing about Emacs</h1>
+ <div class="outline-text-1" id="text-org8e43915">
+ <p>
+At present I am using Emacs to produce a website. Here, I document how I am using Emacs in tandem with git to publish a website. 
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orge526130" class="outline-1">
+ <h1 id="orge526130">About the process: Org Mode</h1>
+ <div class="outline-text-1" id="text-orge526130">
+ <p>
+Org Mode is an Emacs package which comes built-in. I use Org Mode for writing webpages because I can simply export my notes to HTML. Org Mode manifests as a major mode of Emacs which is active when visiting  <code>.org</code> files and special Org Mode buffers. Org is useful for managing projects by way of the TODO word. TODO items can be scheduled to specific times and added to an agenda. Org documents can be linked to one another using hyperlinks. It is possible to publish projects to HTML. This makes it simple to view org documents in the form of websites, complete with images. One can add custom HTML to the publishing function using code written in Emacs Lisp. I have used this to link to an external stylesheet and implement the navigation bar more consistently. 
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org8eb6d08" class="outline-1">
+ <h1 id="org8eb6d08">Git</h1>
+ <div class="outline-text-1" id="text-org8eb6d08">
+ <p>
+Git is version control software which means it keeps track of changes to repositories of documents. It has network capabilities which allow one to clone repositories of software from remote servers. Alternatively, one can push changes to a remote location. I am using git to keep track of the development of my website. I am using GitHub Pages to host the website. You can view the repository  <a href="https://github.com/riviera-taylor/riviera-taylor.github.io">here</a>.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orgc23d91b" class="outline-1">
+ <h1 id="orgc23d91b">Documents I have recently uploaded</h1>
+ <div class="outline-text-1" id="text-orgc23d91b">
+ <p>
+I recently uploaded a link to  <a href="pdfs/contemporary-other-artist-book.pdf">Contemporary Other Artist Book</a>. Contemporary Other was a public showcase of performance art and installations at Ugly Duck in London, 2023. Primarily, I designed and typeset the artist book publication which was to accompany the event. I did so with FLOSS
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orgfc01879" class="outline-1">
+ <h1 id="orgfc01879"> <span class="todo TODO">TODO</span> List</h1>
+ <div class="outline-text-1" id="text-orgfc01879">
+</div>
+ <div id="outline-container-org58b81ac" class="outline-2">
+ <h2 id="org58b81ac"> <span class="todo TODO">TODO</span> Sort out navbar on website</h2>
+</div>
+
+ <div id="outline-container-org04db400" class="outline-2">
+ <h2 id="org04db400"> <span class="todo TODO">TODO</span> Update dotemacs commentary</h2>
+</div>
+
+ <div id="outline-container-org6184f8d" class="outline-2">
+ <h2 id="org6184f8d"> <span class="done DONE">DONE</span> Update CSS on website</h2>
+</div>
+
+ <div id="outline-container-org8013008" class="outline-2">
+ <h2 id="org8013008"> <span class="done DONE">DONE</span> Test hyperlinks between published org pages</h2>
+</div>
+</div>
+</div>]]></description>
+  <link>https://rivierataylor.info/posts/may-05-notes.html</link>
+  <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-notes.html</guid>
+  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
+</item>
+</channel>
+</rss>
