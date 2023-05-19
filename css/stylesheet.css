@@ -2,7 +2,6 @@
 
 * {
     box-sizing: border-box;
-    font-family: 'Lato', sans-serif;
 }
 
 /* org defaults */
@@ -227,6 +226,7 @@ pre span.org-sh-quoted-exec              {color:#FF1493;}
 pre span {font-family: monospace;}
 
 body {
+    font-family: 'Lato', sans-serif;
     background-color: #ebdccb;
     margin: 0;
     line-height: 1.5;
