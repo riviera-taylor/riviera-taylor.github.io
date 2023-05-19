@@ -6,7 +6,146 @@
 <generator>Emacs webfeeder.el</generator>
 <link>https://rivierataylor.info/posts</link>
 <atom:link href="https://rivierataylor.info/posts/rss.xml" rel="self" type="application/rss+xml"/>
-<lastBuildDate>Sun, 14 May 2023 11:24:02 +0100</lastBuildDate>
+<lastBuildDate>Fri, 19 May 2023 10:46:53 +0100</lastBuildDate>
+<item>
+  <title>Making a Website with Org Mode and Git</title>
+  <description><![CDATA[<div id="content" class="content">
+ <div id="outline-container-org63211e2" class="outline-1">
+ <h1 id="org63211e2">Emacs' Org Mode</h1>
+ <div class="outline-text-1" id="text-org63211e2">
+ <p>
+Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org2a0ccee" class="outline-1">
+ <h1 id="org2a0ccee">Git</h1>
+ <div class="outline-text-1" id="text-org2a0ccee">
+ <p>
+Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
+</p>
+</div>
+</div>
+
+ <div id="outline-container-org3e72db5" class="outline-1">
+ <h1 id="org3e72db5">Coding for Org Mode</h1>
+ <div class="outline-text-1" id="text-org3e72db5">
+ <p>
+Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
+</p>
+</div>
+
+ <div id="outline-container-org915d331" class="outline-2">
+ <h2 id="org915d331"> <code>tempo-template-org-headers</code></h2>
+ <div class="outline-text-2" id="text-org915d331">
+ <div class="org-src-container">
+ <pre class="src src-emacs-lisp">( <span class="org-keyword">require</span> ' <span class="org-constant">tempo</span>)
+( <span class="org-keyword">require</span> ' <span class="org-constant">org-tempo</span>)
+( <span class="org-keyword">require</span> ' <span class="org-constant">calendar</span>)
+
+  ( <span class="org-keyword">defun</span>  <span class="org-function-name">insdate-insert-current-date</span> ( <span class="org-type">&optional</span> omit-day-of-week-p)
+     <span class="org-doc">"Insert today's date using the current locale.</span>
+ <span class="org-doc">  With a prefix argument, the date is inserted without the day of</span>
+ <span class="org-doc">  the week."</span>
+    ( <span class="org-keyword">interactive</span>  <span class="org-string">"P*"</span>)
+    (insert (calendar-date-string (calendar-current-date) nil
+                                  omit-day-of-week-p)))
+
+( <span class="org-keyword">setq</span> tempo-interactive t)
+(tempo-define-template  <span class="org-string">"org-headers"</span>
+                       '( <span class="org-string">"#+DATE: "</span> (insdate-insert-current-date) n
+                          <span class="org-string">"#+AUTHOR: "</span> (p  <span class="org-string">"Author: "</span> author) n
+                          <span class="org-string">"#+TITLE: "</span> (p  <span class="org-string">"Title: "</span> title) n
+                          <span class="org-string">"#+SUBTITLE: "</span> (p  <span class="org-string">"Subtitle: "</span> subtitle) n)
+                        <span class="org-string">"org-headers"</span>
+                        <span class="org-string">"Insert org headers"</span>)
+</pre>
+</div>
+
+ <p>
+When called, the function automatically inserts the current date according to Emacs' calendar. Then it prompts the user for the author's name, the title of the document and the subtitle. Such information is input interactively by the user via the mini-buffer. The output of the command might look something like this:
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-org"> <span class="org-org-document-info-keyword">#+DATE:</span>  <span class="org-org-document-info">Friday, May 5, 2023</span>
+ <span class="org-org-document-info-keyword">#+AUTHOR:</span>  <span class="org-org-document-info">Riviera Taylor</span>
+ <span class="org-org-document-info-keyword">#+TITLE:</span>  <span class="org-org-document-title">Foo</span>
+ <span class="org-org-document-info-keyword">#+SUBTITLE:</span>  <span class="org-org-document-info">Bar</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+ <div id="outline-container-orgf63a467" class="outline-2">
+ <h2 id="orgf63a467">org-publish-project-alist</h2>
+ <div class="outline-text-2" id="text-orgf63a467">
+ <div class="org-src-container">
+ <pre class="src src-elisp">( <span class="org-keyword">require</span> ' <span class="org-constant">ox-publish</span>)
+( <span class="org-keyword">setq</span> org-publish-project-alist
+      '(
+        ( <span class="org-string">"website-entries"</span>
+         <span class="org-builtin">:base-directory</span>  <span class="org-string">"~/website"</span>
+         <span class="org-builtin">:base-extension</span>  <span class="org-string">"org"</span>
+         <span class="org-builtin">:publishing-directory</span>  <span class="org-string">"~/website_public"</span>
+         <span class="org-builtin">:recursive</span> t
+         <span class="org-builtin">:publishing-function</span> org-ref-html-publish-to-html  <span class="org-comment-delimiter">;; </span> <span class="org-comment">as defined above</span>
+         <span class="org-builtin">:headline-levels</span> 4
+         <span class="org-builtin">:auto-preamble</span> t
+         <span class="org-builtin">:html-head</span>  <span class="org-string">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
+                  <span class="org-builtin">:html-preamble</span>  <span class="org-string">"</span>
+ <span class="org-string"><!--Navigation bar--></span>
+ <span class="org-string"><div id=\"nav-placeholder\"></span>
+
+ <span class="org-string"></div></span>
+
+ <span class="org-string"><script></span>
+ <span class="org-string">$(function(){</span>
+ <span class="org-string">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+ <span class="org-string">});</span>
+ <span class="org-string"></script></span>
+ <span class="org-string"><!--end of Navigation bar-->"</span>)
+        ( <span class="org-string">"website-static"</span>
+          <span class="org-builtin">:base-directory</span>  <span class="org-string">"~/website"</span>
+          <span class="org-builtin">:base-extension</span>  <span class="org-string">"css</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">js</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">png</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">jpg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">gif</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">pdf</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">mp3</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">ogg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">swf"</span>
+          <span class="org-builtin">:publishing-directory</span>  <span class="org-string">"~/website_public/"</span>
+          <span class="org-builtin">:recursive</span> t
+          <span class="org-builtin">:publishing-function</span> org-publish-attachment
+          <span class="org-builtin">:html-head</span>  <span class="org-string">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
+          <span class="org-builtin">:html-preamble</span>  <span class="org-string">"</span>
+ <span class="org-string"><!--Navigation bar--></span>
+ <span class="org-string"><div id=\"nav-placeholder\"></span>
+
+ <span class="org-string"></div></span>
+
+ <span class="org-string"><script></span>
+ <span class="org-string">$(function(){</span>
+ <span class="org-string">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
+ <span class="org-string">});</span>
+ <span class="org-string"></script></span>
+ <span class="org-string"><!--end of Navigation bar-->"</span>)
+        ( <span class="org-string">"website"</span>  <span class="org-builtin">:components</span> ( <span class="org-string">"website-entries"</span>  <span class="org-string">"website-static"</span>))
+        ))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+ <div id="outline-container-org0e944d9" class="outline-1">
+ <h1 id="org0e944d9">The Knack</h1>
+ <div class="outline-text-1" id="text-org0e944d9">
+ <p>
+The trick is  <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
+</p>
+</div>
+</div>
+</div>]]></description>
+  <link>https://rivierataylor.info/posts/may-05-making-a-website.html</link>
+  <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-making-a-website.html</guid>
+  <pubDate>Fri, 19 May 2023 10:46:00 +0100</pubDate>
+</item>
 <item>
   <title>FLOSS document production workflow</title>
   <description><![CDATA[<div id="content" class="content">
@@ -88,7 +227,7 @@ To set up syncing with Zotero click on the green circular arrow in the top right
 </p>
 
 
- <figure id="org80c8852"> <img src="../img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png"></img></figure></div>
+ <figure id="orge36ca07"> <img src="../img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png"></img></figure></div>
 </div>
 
  <div id="outline-container-orge455f8c" class="outline-3">
@@ -103,22 +242,22 @@ Open Zotero and go to the tools tab of the menu, select add-ons
 </p>
 
 
- <figure id="org80426c4"> <img src="../img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png"></img></figure> <p>
+ <figure id="org7ee0552"> <img src="../img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png"></img></figure> <p>
 In the Add-ons manager window select the gear icon drop-down menu and select Install add-ons from file
 </p>
 
 
- <figure id="orgfc85b5a"> <img src="../img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png"></img></figure> <p>
+ <figure id="org702c3b4"> <img src="../img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png"></img></figure> <p>
 Navigate to your downloads file and select the  <code>.xpi</code> add-on to install, then select open
 </p>
 
 
- <figure id="org03af751"> <img src="../img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png"></img></figure> <p>
+ <figure id="orge3b12e7"> <img src="../img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png"></img></figure> <p>
 Hit install now, then restart Zotero when prompted
 </p>
 
 
- <figure id="org495255a"> <img src="../img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png"></img></figure></div>
+ <figure id="orgacf9d06"> <img src="../img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png"></img></figure></div>
 </div>
 
  <div id="outline-container-org3cda1f3" class="outline-3">
@@ -138,17 +277,17 @@ Back in Zotero, select My Library in the panel on the right. Then click on Expor
 </p>
 
 
- <figure id="org3c0c0f0"> <img src="../img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png"></img></figure> <p>
+ <figure id="orgc5fd59b"> <img src="../img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png"></img></figure> <p>
 In the drop down menu, select Better BibTeX from the available options
 </p>
 
 
- <figure id="orgb006cbf"> <img src="../img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png"></img></figure> <p>
+ <figure id="orgedd7eea"> <img src="../img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png"></img></figure> <p>
 Check the box that says keep updated. Rename the file to  <code>my-library.bib</code> and save it in the bibliography folder in your home directory
 </p>
 
 
- <figure id="org76f172f"> <img src="../img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png"></img></figure></div>
+ <figure id="org618b580"> <img src="../img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png"></img></figure></div>
 </div>
 </div>
 </div>
@@ -161,8 +300,8 @@ Having set up a BibTeX file for items in the Zotero library, it's time to instal
 </p>
 
  <div class="org-src-container">
- <pre class="src src-shell">$ mkdir $ <span style="font-weight: bold; font-style: italic;">HOME</span>/context
-$ cd $ <span style="font-weight: bold; font-style: italic;">HOME</span>/context
+ <pre class="src src-shell">$ mkdir $ <span class="org-variable-name">HOME</span>/context
+$ cd $ <span class="org-variable-name">HOME</span>/context
 $ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
 $ unzip context-linux-64.zip
 $ rsync --recursive --links --times --info=progress2,remove,symsafe,flist,del --human-readable --del rsync://contextgarden.net/minimals/current/modules/ modules
@@ -283,15 +422,15 @@ Add the following lines of code to your .emacs file (or init file)
 </p>
 
  <div class="org-src-container">
- <pre class="src src-lisp">( <span style="font-weight: bold;">defvar</span>  <span style="font-weight: bold; font-style: italic;">bootstrap-version</span>)
+ <pre class="src src-lisp">( <span class="org-keyword">defvar</span>  <span class="org-variable-name">bootstrap-version</span>)
 
-( <span style="font-weight: bold;">let</span> ((bootstrap-file
-     (expand-file-name  <span style="font-style: italic;">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
+( <span class="org-keyword">let</span> ((bootstrap-file
+     (expand-file-name  <span class="org-string">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
     (bootstrap-version 5))
-( <span style="font-weight: bold;">unless</span> (file-exists-p bootstrap-file)
-  ( <span style="font-weight: bold;">with-current-buffer</span>
+( <span class="org-keyword">unless</span> (file-exists-p bootstrap-file)
+  ( <span class="org-keyword">with-current-buffer</span>
       (url-retrieve-synchronously
-        <span style="font-style: italic;">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
+        <span class="org-string">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
        'silent 'inhibit-cookies)
     (goto-char (point-max))
     (eval-print-last-sexp)))
@@ -333,9 +472,9 @@ Save the file and restart Emacs to clone the packages.
 Append the following lines to your .emacs.
 </p>
  <div class="org-src-container">
- <pre class="src src-lisp">(global-set-key (kbd  <span style="font-style: italic;">"M-x"</span>) #'helm-M-x)
-(global-set-key (kbd  <span style="font-style: italic;">"C-x r b"</span>) #'helm-filtered-bookmarks)
-(global-set-key (kbd  <span style="font-style: italic;">"C-x C-f"</span>) #'helm-find-files)
+ <pre class="src src-lisp">(global-set-key (kbd  <span class="org-string">"M-x"</span>) #'helm-M-x)
+(global-set-key (kbd  <span class="org-string">"C-x r b"</span>) #'helm-filtered-bookmarks)
+(global-set-key (kbd  <span class="org-string">"C-x C-f"</span>) #'helm-find-files)
 
 (helm-mode 1)
 </pre>
@@ -351,23 +490,23 @@ The next lines to add to the .emacs file are as follows:
 </p>
 
  <div class="org-src-container">
- <pre class="src src-lisp"> <span style="font-weight: bold; font-style: italic;">;; </span> <span style="font-weight: bold; font-style: italic;">org-ref</span>
+ <pre class="src src-lisp"> <span class="org-comment-delimiter">;; </span> <span class="org-comment">org-ref</span>
 (use-package helm-bibtex
-   <span style="font-weight: bold;">:init</span>
-  (setq bibtex-completion-bibliography '( <span style="font-style: italic;">"~/Bibliography/my-library.bib"</span>)
-        bibtex-completion-library-path '( <span style="font-style: italic;">"~/Bibliography/bibtex-pdfs/"</span>)
-        bibtex-completion-notes-path  <span style="font-style: italic;">"~/Bibliography/notes/"</span>
-        bibtex-completion-notes-template-multiple-files  <span style="font-style: italic;">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"</span>
+   <span class="org-builtin">:init</span>
+  (setq bibtex-completion-bibliography '( <span class="org-string">"~/Bibliography/my-library.bib"</span>)
+        bibtex-completion-library-path '( <span class="org-string">"~/Bibliography/bibtex-pdfs/"</span>)
+        bibtex-completion-notes-path  <span class="org-string">"~/Bibliography/notes/"</span>
+        bibtex-completion-notes-template-multiple-files  <span class="org-string">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"</span>
         bibtex-completion-additional-search-fields '(keywords)
         bibtex-completion-display-formats
-        '((article       .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
-          (inbook        .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
-          (incollection  .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
-          (inproceedings .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
-          (t             .  <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
+        '((article       .  <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
+          (inbook        .  <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
+          (incollection  .  <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (inproceedings .  <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (t             .  <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
         bibtex-completion-pdf-open-function
-        ( <span style="font-weight: bold;">lambda</span> (fpath)
-          (call-process  <span style="font-style: italic;">"open"</span> nil 0 nil fpath))))
+        ( <span class="org-keyword">lambda</span> (fpath)
+          (call-process  <span class="org-string">"open"</span> nil 0 nil fpath))))
 </pre>
 </div>
 
@@ -386,26 +525,26 @@ Now we need to configure org-ref; add the following lines of code to your .emacs
 
  <div class="org-src-container">
  <pre class="src src-lisp">(use-package org-ref
-   <span style="font-weight: bold;">:ensure</span> nil
- <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
-   <span style="font-weight: bold;">:init</span>
- <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">(add-to-list 'load-path</span>
- <span style="font-weight: bold; font-style: italic;">;;</span> <span style="font-weight: bold; font-style: italic;">             (expand-file-name "org-ref" scimax-dir))</span>
-  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">bibtex</span>)
+   <span class="org-builtin">:ensure</span> nil
+ <span class="org-comment-delimiter">;;  </span> <span class="org-comment">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+   <span class="org-builtin">:init</span>
+ <span class="org-comment-delimiter">;;  </span> <span class="org-comment">(add-to-list 'load-path</span>
+ <span class="org-comment-delimiter">;;</span> <span class="org-comment">             (expand-file-name "org-ref" scimax-dir))</span>
+  ( <span class="org-keyword">require</span> ' <span class="org-constant">bibtex</span>)
   (setq bibtex-autokey-year-length 4
-        bibtex-autokey-name-year-separator  <span style="font-style: italic;">"-"</span>
-        bibtex-autokey-year-title-separator  <span style="font-style: italic;">"-"</span>
-        bibtex-autokey-titleword-separator  <span style="font-style: italic;">"-"</span>
+        bibtex-autokey-name-year-separator  <span class="org-string">"-"</span>
+        bibtex-autokey-year-title-separator  <span class="org-string">"-"</span>
+        bibtex-autokey-titleword-separator  <span class="org-string">"-"</span>
         bibtex-autokey-titlewords 2
         bibtex-autokey-titlewords-stretch 1
         bibtex-autokey-titleword-length 5)
-  (define-key bibtex-mode-map (kbd  <span style="font-style: italic;">"H-b"</span>) 'org-ref-bibtex-hydra/body)
-  (define-key org-mode-map (kbd  <span style="font-style: italic;">"C-c ]"</span>) 'org-ref-cite-insert-helm)
-  (define-key org-mode-map (kbd  <span style="font-style: italic;">"s-["</span>) 'org-ref-insert-link-hydra/body)
-  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-helm</span>)
-  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-arxiv</span>)
-  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-scopus</span>)
-  ( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-ref-wos</span>))
+  (define-key bibtex-mode-map (kbd  <span class="org-string">"H-b"</span>) 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd  <span class="org-string">"C-c ]"</span>) 'org-ref-cite-insert-helm)
+  (define-key org-mode-map (kbd  <span class="org-string">"s-["</span>) 'org-ref-insert-link-hydra/body)
+  ( <span class="org-keyword">require</span> ' <span class="org-constant">org-ref-helm</span>)
+  ( <span class="org-keyword">require</span> ' <span class="org-constant">org-ref-arxiv</span>)
+  ( <span class="org-keyword">require</span> ' <span class="org-constant">org-ref-scopus</span>)
+  ( <span class="org-keyword">require</span> ' <span class="org-constant">org-ref-wos</span>))
 </pre>
 </div>
 
@@ -415,13 +554,13 @@ To configure org-ref-helm, add the following lines of code
 
  <div class="org-src-container">
  <pre class="src src-lisp">(use-package org-ref-helm
-   <span style="font-weight: bold;">:ensure</span> nil
- <span style="font-weight: bold; font-style: italic;">;;  </span> <span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
-   <span style="font-weight: bold;">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+   <span class="org-builtin">:ensure</span> nil
+ <span class="org-comment-delimiter">;;  </span> <span class="org-comment">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+   <span class="org-builtin">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
               org-ref-insert-cite-function 'org-ref-cite-insert-helm
               org-ref-insert-label-function 'org-ref-insert-label-link
               org-ref-insert-ref-function 'org-ref-insert-ref-link
-              org-ref-cite-onclick-function ( <span style="font-weight: bold;">lambda</span> (_) (org-ref-citation-hydra/body))))
+              org-ref-cite-onclick-function ( <span class="org-keyword">lambda</span> (_) (org-ref-citation-hydra/body))))
 </pre>
 </div>
 
@@ -445,7 +584,7 @@ Open a terminal and enter the following command
 </p>
 
  <div class="org-src-container">
- <pre class="src src-shell">$ curl --proto  <span style="font-style: italic;">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+ <pre class="src src-shell">$ curl --proto  <span class="org-string">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 </pre>
 </div>
 
@@ -494,221 +633,7 @@ Having installed and configured the software it is time to write in org mode. Th
 </div>]]></description>
   <link>https://rivierataylor.info/posts/may-03-floss-document-production-workflow.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/posts/may-03-floss-document-production-workflow.html</guid>
-  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
-</item>
-<item>
-  <title>Ideas</title>
-  <description><![CDATA[<div id="content" class="content">
- <div id="outline-container-org54732cc" class="outline-1">
- <h1 id="org54732cc"> <span class="done DONE">DONE</span> Link the dotemacs file properly and setup publishing workflow</h1>
-</div>
-</div>]]></description>
-  <link>https://rivierataylor.info/posts/may-04-ideas.html</link>
-  <guid isPermaLink="false">https://rivierataylor.info/posts/may-04-ideas.html</guid>
-  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
-</item>
-<item>
-  <title>Making a Website with Org Mode and Git</title>
-  <description><![CDATA[<div id="content" class="content">
- <div id="outline-container-org63211e2" class="outline-1">
- <h1 id="org63211e2">Emacs' Org Mode</h1>
- <div class="outline-text-1" id="text-org63211e2">
- <p>
-Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
-</p>
-</div>
-</div>
-
- <div id="outline-container-org2a0ccee" class="outline-1">
- <h1 id="org2a0ccee">Git</h1>
- <div class="outline-text-1" id="text-org2a0ccee">
- <p>
-Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
-</p>
-</div>
-</div>
-
- <div id="outline-container-org3e72db5" class="outline-1">
- <h1 id="org3e72db5">Coding for Org Mode</h1>
- <div class="outline-text-1" id="text-org3e72db5">
- <p>
-Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
-</p>
-</div>
-
- <div id="outline-container-org915d331" class="outline-2">
- <h2 id="org915d331"> <code>tempo-template-org-headers</code></h2>
- <div class="outline-text-2" id="text-org915d331">
- <div class="org-src-container">
- <pre class="src src-elisp">( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">tempo</span>)
-( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">org-tempo</span>)
-( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">calendar</span>)
-
-  ( <span style="font-weight: bold;">defun</span>  <span style="font-weight: bold;">insdate-insert-current-date</span> ( <span style="font-weight: bold; text-decoration: underline;">&optional</span> omit-day-of-week-p)
-     <span style="font-style: italic;">"Insert today's date using the current locale.</span>
- <span style="font-style: italic;">  With a prefix argument, the date is inserted without the day of</span>
- <span style="font-style: italic;">  the week."</span>
-    ( <span style="font-weight: bold;">interactive</span>  <span style="font-style: italic;">"P*"</span>)
-    (insert (calendar-date-string (calendar-current-date) nil
-                                  omit-day-of-week-p)))
-
-( <span style="font-weight: bold;">setq</span> tempo-interactive t)
-(tempo-define-template  <span style="font-style: italic;">"org-headers"</span>
-                       '( <span style="font-style: italic;">"#+DATE: "</span> (insdate-insert-current-date) n
-                          <span style="font-style: italic;">"#+AUTHOR: "</span> (p  <span style="font-style: italic;">"Author: "</span> author) n
-                          <span style="font-style: italic;">"#+TITLE: "</span> (p  <span style="font-style: italic;">"Title: "</span> title) n
-                          <span style="font-style: italic;">"#+SUBTITLE: "</span> (p  <span style="font-style: italic;">"Subtitle: "</span> subtitle) n)
-                        <span style="font-style: italic;">"org-headers"</span>
-                        <span style="font-style: italic;">"Insert org headers"</span>)
-</pre>
-</div>
-
- <p>
-When called, the function automatically inserts the current date according to Emacs' calendar. Then it prompts the user for the author's name, the title of the document and the subtitle. Such information is input interactively by the user via the mini-buffer. The output of the command might look something like this:
-</p>
-
- <div class="org-src-container">
- <pre class="src src-org">#+DATE: Friday, May 5, 2023
-#+AUTHOR: Riviera Taylor
-#+TITLE:  <span style="font-weight: bold;">Foo</span>
-#+SUBTITLE: Bar
-</pre>
-</div>
-</div>
-</div>
-
-
- <div id="outline-container-orgf63a467" class="outline-2">
- <h2 id="orgf63a467">org-publish-project-alist</h2>
- <div class="outline-text-2" id="text-orgf63a467">
- <div class="org-src-container">
- <pre class="src src-elisp">( <span style="font-weight: bold;">require</span> ' <span style="font-weight: bold; text-decoration: underline;">ox-publish</span>)
-( <span style="font-weight: bold;">setq</span> org-publish-project-alist
-      '(
-        ( <span style="font-style: italic;">"website-entries"</span>
-         <span style="font-weight: bold;">:base-directory</span>  <span style="font-style: italic;">"~/website"</span>
-         <span style="font-weight: bold;">:base-extension</span>  <span style="font-style: italic;">"org"</span>
-         <span style="font-weight: bold;">:publishing-directory</span>  <span style="font-style: italic;">"~/website_public"</span>
-         <span style="font-weight: bold;">:recursive</span> t
-         <span style="font-weight: bold;">:publishing-function</span> org-ref-html-publish-to-html  <span style="font-weight: bold; font-style: italic;">;; </span> <span style="font-weight: bold; font-style: italic;">as defined above</span>
-         <span style="font-weight: bold;">:headline-levels</span> 4
-         <span style="font-weight: bold;">:auto-preamble</span> t
-         <span style="font-weight: bold;">:html-head</span>  <span style="font-style: italic;">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
-                  <span style="font-weight: bold;">:html-preamble</span>  <span style="font-style: italic;">"</span>
- <span style="font-style: italic;"><!--Navigation bar--></span>
- <span style="font-style: italic;"><div id=\"nav-placeholder\"></span>
-
- <span style="font-style: italic;"></div></span>
-
- <span style="font-style: italic;"><script></span>
- <span style="font-style: italic;">$(function(){</span>
- <span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
- <span style="font-style: italic;">});</span>
- <span style="font-style: italic;"></script></span>
- <span style="font-style: italic;"><!--end of Navigation bar-->"</span>)
-        ( <span style="font-style: italic;">"website-static"</span>
-          <span style="font-weight: bold;">:base-directory</span>  <span style="font-style: italic;">"~/website"</span>
-          <span style="font-weight: bold;">:base-extension</span>  <span style="font-style: italic;">"css</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">js</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">png</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">jpg</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">gif</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">pdf</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">mp3</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">ogg</span> <span style="font-weight: bold; font-style: italic;">\\</span> <span style="font-weight: bold; font-style: italic;">|</span> <span style="font-style: italic;">swf"</span>
-          <span style="font-weight: bold;">:publishing-directory</span>  <span style="font-style: italic;">"~/website_public/"</span>
-          <span style="font-weight: bold;">:recursive</span> t
-          <span style="font-weight: bold;">:publishing-function</span> org-publish-attachment
-          <span style="font-weight: bold;">:html-head</span>  <span style="font-style: italic;">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
-          <span style="font-weight: bold;">:html-preamble</span>  <span style="font-style: italic;">"</span>
- <span style="font-style: italic;"><!--Navigation bar--></span>
- <span style="font-style: italic;"><div id=\"nav-placeholder\"></span>
-
- <span style="font-style: italic;"></div></span>
-
- <span style="font-style: italic;"><script></span>
- <span style="font-style: italic;">$(function(){</span>
- <span style="font-style: italic;">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
- <span style="font-style: italic;">});</span>
- <span style="font-style: italic;"></script></span>
- <span style="font-style: italic;"><!--end of Navigation bar-->"</span>)
-        ( <span style="font-style: italic;">"website"</span>  <span style="font-weight: bold;">:components</span> ( <span style="font-style: italic;">"website-entries"</span>  <span style="font-style: italic;">"website-static"</span>))
-        ))
-</pre>
-</div>
-</div>
-</div>
-</div>
-
- <div id="outline-container-org0e944d9" class="outline-1">
- <h1 id="org0e944d9">The Knack</h1>
- <div class="outline-text-1" id="text-org0e944d9">
- <p>
-The trick is  <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
-</p>
-</div>
-</div>
-</div>]]></description>
-  <link>https://rivierataylor.info/posts/may-05-making-a-website.html</link>
-  <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-making-a-website.html</guid>
-  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
-</item>
-<item>
-  <title>Notes</title>
-  <description><![CDATA[<div id="content" class="content">
- <div id="outline-container-org8e43915" class="outline-1">
- <h1 id="org8e43915">Writing about Emacs</h1>
- <div class="outline-text-1" id="text-org8e43915">
- <p>
-At present I am using Emacs to produce a website. Here, I document how I am using Emacs in tandem with git to publish a website. 
-</p>
-</div>
-</div>
-
- <div id="outline-container-orge526130" class="outline-1">
- <h1 id="orge526130">About the process: Org Mode</h1>
- <div class="outline-text-1" id="text-orge526130">
- <p>
-Org Mode is an Emacs package which comes built-in. I use Org Mode for writing webpages because I can simply export my notes to HTML. Org Mode manifests as a major mode of Emacs which is active when visiting  <code>.org</code> files and special Org Mode buffers. Org is useful for managing projects by way of the TODO word. TODO items can be scheduled to specific times and added to an agenda. Org documents can be linked to one another using hyperlinks. It is possible to publish projects to HTML. This makes it simple to view org documents in the form of websites, complete with images. One can add custom HTML to the publishing function using code written in Emacs Lisp. I have used this to link to an external stylesheet and implement the navigation bar more consistently. 
-</p>
-</div>
-</div>
-
- <div id="outline-container-org8eb6d08" class="outline-1">
- <h1 id="org8eb6d08">Git</h1>
- <div class="outline-text-1" id="text-org8eb6d08">
- <p>
-Git is version control software which means it keeps track of changes to repositories of documents. It has network capabilities which allow one to clone repositories of software from remote servers. Alternatively, one can push changes to a remote location. I am using git to keep track of the development of my website. I am using GitHub Pages to host the website. You can view the repository  <a href="https://github.com/riviera-taylor/riviera-taylor.github.io">here</a>.
-</p>
-</div>
-</div>
-
- <div id="outline-container-orgc23d91b" class="outline-1">
- <h1 id="orgc23d91b">Documents I have recently uploaded</h1>
- <div class="outline-text-1" id="text-orgc23d91b">
- <p>
-I recently uploaded a link to  <a href="pdfs/contemporary-other-artist-book.pdf">Contemporary Other Artist Book</a>. Contemporary Other was a public showcase of performance art and installations at Ugly Duck in London, 2023. Primarily, I designed and typeset the artist book publication which was to accompany the event. I did so with FLOSS
-</p>
-</div>
-</div>
-
- <div id="outline-container-orgfc01879" class="outline-1">
- <h1 id="orgfc01879"> <span class="todo TODO">TODO</span> List</h1>
- <div class="outline-text-1" id="text-orgfc01879">
-</div>
- <div id="outline-container-org58b81ac" class="outline-2">
- <h2 id="org58b81ac"> <span class="todo TODO">TODO</span> Sort out navbar on website</h2>
-</div>
-
- <div id="outline-container-org04db400" class="outline-2">
- <h2 id="org04db400"> <span class="todo TODO">TODO</span> Update dotemacs commentary</h2>
-</div>
-
- <div id="outline-container-org6184f8d" class="outline-2">
- <h2 id="org6184f8d"> <span class="done DONE">DONE</span> Update CSS on website</h2>
-</div>
-
- <div id="outline-container-org8013008" class="outline-2">
- <h2 id="org8013008"> <span class="done DONE">DONE</span> Test hyperlinks between published org pages</h2>
-</div>
-</div>
-</div>]]></description>
-  <link>https://rivierataylor.info/posts/may-05-notes.html</link>
-  <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-notes.html</guid>
-  <pubDate>Sun, 14 May 2023 11:23:00 +0100</pubDate>
+  <pubDate>Sun, 14 May 2023 13:32:00 +0100</pubDate>
 </item>
 </channel>
 </rss>
