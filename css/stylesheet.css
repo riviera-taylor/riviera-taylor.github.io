@@ -191,6 +191,38 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 
+  /* syntax highlghting for src blocks; https://github.com/kaushalmodi/.emacs.d/blob/master/misc/css/leuven_theme.css */
+  
+pre span.org-builtin                     {color:#006FE0;font-weight:bold;}
+pre span.org-string                      {color:#008000;}
+pre span.org-keyword                     {color:#0000FF;}
+pre span.org-variable-name               {color:#BA36A5;}
+pre span.org-function-name               {color:#006699;}
+pre span.org-type                        {color:#6434A3;}
+pre span.org-preprocessor                {color:#808080;font-weight:bold;}
+pre span.org-constant                    {color:#D0372D;}
+pre span.org-comment-delimiter           {color:#8D8D84;}
+pre span.org-comment                     {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-1            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-2            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-3            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-4            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-5            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-6            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-7            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-8            {color:#8D8D84;font-style:italic}
+pre span.org-outshine-level-9            {color:#8D8D84;font-style:italic}
+pre span.org-rainbow-delimiters-depth-1  {color:#707183;}
+pre span.org-rainbow-delimiters-depth-2  {color:#7388d6;}
+pre span.org-rainbow-delimiters-depth-3  {color:#909183;}
+pre span.org-rainbow-delimiters-depth-4  {color:#709870;}
+pre span.org-rainbow-delimiters-depth-5  {color:#907373;}
+pre span.org-rainbow-delimiters-depth-6  {color:#6276ba;}
+pre span.org-rainbow-delimiters-depth-7  {color:#858580;}
+pre span.org-rainbow-delimiters-depth-8  {color:#80a880;}
+pre span.org-rainbow-delimiters-depth-9  {color:#887070;}
+pre span.org-sh-quoted-exec              {color:#FF1493;}
+  
 /* My CSS */ 
 
 
@@ -206,14 +238,17 @@ code {
     font-size: 1.25rem;
 }
 
+img {
+    width: 100%;
+    border: 1px solid black;
+}
+
 .title {
-    background: #c3baaa;
+    background:  #ebdccb;
     color: #222;
     width: auto;
     margin: 0;
     padding-top: 1vh;
-    outline: 2vw solid #c3baaa;
-
 }
 
 #content {
@@ -241,11 +276,6 @@ p {
     text-align-last: left;
 }
 
-div#preamble.status {
-    position: sticky;
-    top: 0;
-}
-
 h2 {
     padding-top: 2vh;
     margin-top: 2vh;
@@ -262,21 +292,24 @@ h3, h4 {
     padding: 0;
 }
 
+/* Sitemap for blog */
+
 .sitemap {
+    list-style-type: none;
     margin: 0;
 }
 
 /* sidenav */
 
 ul.sidenav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 15%;
-    background-color: #b2a3b5;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: #b2a3b5;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
 }
 
 ul.sidenav li a {
@@ -285,26 +318,26 @@ ul.sidenav li a {
     padding: 8px 16px;
     text-decoration: none;
 }
-
-/*
-ul.sidenav li a.active {
-    background-color: #6B4E71;
-    color: #fff;
-}
-*/
+ 
+/* ul.sidenav li a.active { */
+/*   background-color: #4CAF50; */
+/*   color: white; */
+/* } */
 
 ul.sidenav li a:hover:not(.active) {
     background-color: #91818a;
-    color: #fff;
+    color: white;
 }
 
 @media screen and (max-width: 900px) {
     ul.sidenav {
 	width: 100%;
 	height: auto;
-	position: relative;
+	position: sticky;
+	top: 0;
+	z-index: 999;	
     }
-    
+
     ul.sidenav li a {
 	float: left;
 	padding: 15px;
@@ -320,9 +353,15 @@ ul.sidenav li a:hover:not(.active) {
     }
 }
 
-@media screen and (max-width: 400px) {
-    ul.sidenav li a {
-	text-align: center;
-	float: none;
-    }
+@media screen and (max-width: 500px) {
+  ul.sidenav {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  ul.sidenav li a {
+      text-align: center;
+      float: none;
+  }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-05-14 Sun 11:23 -->
+<!-- 2023-05-14 Sun 13:32 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>FLOSS document production workflow</title>
@@ -115,7 +115,7 @@ To set up syncing with Zotero click on the green circular arrow in the top right
 </p>
 
 
-<figure id="org80c8852">
+<figure id="orge36ca07">
 <img src="../img/Screenshot from 2023-05-03 16-12-17.png" alt="Screenshot from 2023-05-03 16-12-17.png">
 
 </figure>
@@ -134,7 +134,7 @@ Open Zotero and go to the tools tab of the menu, select add-ons
 </p>
 
 
-<figure id="org80426c4">
+<figure id="org7ee0552">
 <img src="../img/Screenshot from 2023-05-03 16-16-49.png" alt="Screenshot from 2023-05-03 16-16-49.png">
 
 </figure>
@@ -144,7 +144,7 @@ In the Add-ons manager window select the gear icon drop-down menu and select Ins
 </p>
 
 
-<figure id="orgfc85b5a">
+<figure id="org702c3b4">
 <img src="../img/Screenshot from 2023-05-03 16-07-55.png" alt="Screenshot from 2023-05-03 16-07-55.png">
 
 </figure>
@@ -154,7 +154,7 @@ Navigate to your downloads file and select the <code>.xpi</code> add-on to insta
 </p>
 
 
-<figure id="org03af751">
+<figure id="orge3b12e7">
 <img src="../img/Screenshot from 2023-05-03 16-08-20.png" alt="Screenshot from 2023-05-03 16-08-20.png">
 
 </figure>
@@ -164,7 +164,7 @@ Hit install now, then restart Zotero when prompted
 </p>
 
 
-<figure id="org495255a">
+<figure id="orgacf9d06">
 <img src="../img/Screenshot from 2023-05-03 16-10-15.png" alt="Screenshot from 2023-05-03 16-10-15.png">
 
 </figure>
@@ -188,7 +188,7 @@ Back in Zotero, select My Library in the panel on the right. Then click on Expor
 </p>
 
 
-<figure id="org3c0c0f0">
+<figure id="orgc5fd59b">
 <img src="../img/Screenshot from 2023-05-03 16-39-57.png" alt="Screenshot from 2023-05-03 16-39-57.png">
 
 </figure>
@@ -198,7 +198,7 @@ In the drop down menu, select Better BibTeX from the available options
 </p>
 
 
-<figure id="orgb006cbf">
+<figure id="orgedd7eea">
 <img src="../img/Screenshot from 2023-05-03 16-40-49.png" alt="Screenshot from 2023-05-03 16-40-49.png">
 
 </figure>
@@ -208,7 +208,7 @@ Check the box that says keep updated. Rename the file to <code>my-library.bib</c
 </p>
 
 
-<figure id="org76f172f">
+<figure id="org618b580">
 <img src="../img/Screenshot from 2023-05-03 16-48-15.png" alt="Screenshot from 2023-05-03 16-48-15.png">
 
 </figure>
@@ -225,8 +225,8 @@ Having set up a BibTeX file for items in the Zotero library, it's time to instal
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ mkdir $<span style="font-weight: bold; font-style: italic;">HOME</span>/context
-$ cd $<span style="font-weight: bold; font-style: italic;">HOME</span>/context
+<pre class="src src-shell">$ mkdir $<span class="org-variable-name">HOME</span>/context
+$ cd $<span class="org-variable-name">HOME</span>/context
 $ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
 $ unzip context-linux-64.zip
 $ rsync --recursive --links --times --info=progress2,remove,symsafe,flist,del --human-readable --del rsync://contextgarden.net/minimals/current/modules/ modules
@@ -347,15 +347,15 @@ Add the following lines of code to your .emacs file (or init file)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="font-weight: bold;">defvar</span> <span style="font-weight: bold; font-style: italic;">bootstrap-version</span>)
+<pre class="src src-lisp">(<span class="org-keyword">defvar</span> <span class="org-variable-name">bootstrap-version</span>)
 
-(<span style="font-weight: bold;">let</span> ((bootstrap-file
-     (expand-file-name <span style="font-style: italic;">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
+(<span class="org-keyword">let</span> ((bootstrap-file
+     (expand-file-name <span class="org-string">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory))
     (bootstrap-version 5))
-(<span style="font-weight: bold;">unless</span> (file-exists-p bootstrap-file)
-  (<span style="font-weight: bold;">with-current-buffer</span>
+(<span class="org-keyword">unless</span> (file-exists-p bootstrap-file)
+  (<span class="org-keyword">with-current-buffer</span>
       (url-retrieve-synchronously
-       <span style="font-style: italic;">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
+       <span class="org-string">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
        'silent 'inhibit-cookies)
     (goto-char (point-max))
     (eval-print-last-sexp)))
@@ -397,9 +397,9 @@ Save the file and restart Emacs to clone the packages.
 Append the following lines to your .emacs.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp">(global-set-key (kbd <span style="font-style: italic;">"M-x"</span>) #'helm-M-x)
-(global-set-key (kbd <span style="font-style: italic;">"C-x r b"</span>) #'helm-filtered-bookmarks)
-(global-set-key (kbd <span style="font-style: italic;">"C-x C-f"</span>) #'helm-find-files)
+<pre class="src src-lisp">(global-set-key (kbd <span class="org-string">"M-x"</span>) #'helm-M-x)
+(global-set-key (kbd <span class="org-string">"C-x r b"</span>) #'helm-filtered-bookmarks)
+(global-set-key (kbd <span class="org-string">"C-x C-f"</span>) #'helm-find-files)
 
 (helm-mode 1)
 </pre>
@@ -415,23 +415,23 @@ The next lines to add to the .emacs file are as follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">org-ref</span>
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">org-ref</span>
 (use-package helm-bibtex
-  <span style="font-weight: bold;">:init</span>
-  (setq bibtex-completion-bibliography '(<span style="font-style: italic;">"~/Bibliography/my-library.bib"</span>)
-        bibtex-completion-library-path '(<span style="font-style: italic;">"~/Bibliography/bibtex-pdfs/"</span>)
-        bibtex-completion-notes-path <span style="font-style: italic;">"~/Bibliography/notes/"</span>
-        bibtex-completion-notes-template-multiple-files <span style="font-style: italic;">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&amp;${=key=}]]\n"</span>
+  <span class="org-builtin">:init</span>
+  (setq bibtex-completion-bibliography '(<span class="org-string">"~/Bibliography/my-library.bib"</span>)
+        bibtex-completion-library-path '(<span class="org-string">"~/Bibliography/bibtex-pdfs/"</span>)
+        bibtex-completion-notes-path <span class="org-string">"~/Bibliography/notes/"</span>
+        bibtex-completion-notes-template-multiple-files <span class="org-string">"* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&amp;${=key=}]]\n"</span>
         bibtex-completion-additional-search-fields '(keywords)
         bibtex-completion-display-formats
-        '((article       . <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
-          (inbook        . <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
-          (incollection  . <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
-          (inproceedings . <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
-          (t             . <span style="font-style: italic;">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
+        '((article       . <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}"</span>)
+          (inbook        . <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}"</span>)
+          (incollection  . <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (inproceedings . <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}"</span>)
+          (t             . <span class="org-string">"${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"</span>))
         bibtex-completion-pdf-open-function
-        (<span style="font-weight: bold;">lambda</span> (fpath)
-          (call-process <span style="font-style: italic;">"open"</span> nil 0 nil fpath))))
+        (<span class="org-keyword">lambda</span> (fpath)
+          (call-process <span class="org-string">"open"</span> nil 0 nil fpath))))
 </pre>
 </div>
 
@@ -450,26 +450,26 @@ Now we need to configure org-ref; add the following lines of code to your .emacs
 
 <div class="org-src-container">
 <pre class="src src-lisp">(use-package org-ref
-  <span style="font-weight: bold;">:ensure</span> nil
-<span style="font-weight: bold; font-style: italic;">;;  </span><span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
-  <span style="font-weight: bold;">:init</span>
-<span style="font-weight: bold; font-style: italic;">;;  </span><span style="font-weight: bold; font-style: italic;">(add-to-list 'load-path</span>
-<span style="font-weight: bold; font-style: italic;">;;</span><span style="font-weight: bold; font-style: italic;">             (expand-file-name "org-ref" scimax-dir))</span>
-  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">bibtex</span>)
+  <span class="org-builtin">:ensure</span> nil
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+  <span class="org-builtin">:init</span>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(add-to-list 'load-path</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">             (expand-file-name "org-ref" scimax-dir))</span>
+  (<span class="org-keyword">require</span> '<span class="org-constant">bibtex</span>)
   (setq bibtex-autokey-year-length 4
-        bibtex-autokey-name-year-separator <span style="font-style: italic;">"-"</span>
-        bibtex-autokey-year-title-separator <span style="font-style: italic;">"-"</span>
-        bibtex-autokey-titleword-separator <span style="font-style: italic;">"-"</span>
+        bibtex-autokey-name-year-separator <span class="org-string">"-"</span>
+        bibtex-autokey-year-title-separator <span class="org-string">"-"</span>
+        bibtex-autokey-titleword-separator <span class="org-string">"-"</span>
         bibtex-autokey-titlewords 2
         bibtex-autokey-titlewords-stretch 1
         bibtex-autokey-titleword-length 5)
-  (define-key bibtex-mode-map (kbd <span style="font-style: italic;">"H-b"</span>) 'org-ref-bibtex-hydra/body)
-  (define-key org-mode-map (kbd <span style="font-style: italic;">"C-c ]"</span>) 'org-ref-cite-insert-helm)
-  (define-key org-mode-map (kbd <span style="font-style: italic;">"s-["</span>) 'org-ref-insert-link-hydra/body)
-  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-ref-helm</span>)
-  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-ref-arxiv</span>)
-  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-ref-scopus</span>)
-  (<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">org-ref-wos</span>))
+  (define-key bibtex-mode-map (kbd <span class="org-string">"H-b"</span>) 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd <span class="org-string">"C-c ]"</span>) 'org-ref-cite-insert-helm)
+  (define-key org-mode-map (kbd <span class="org-string">"s-["</span>) 'org-ref-insert-link-hydra/body)
+  (<span class="org-keyword">require</span> '<span class="org-constant">org-ref-helm</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">org-ref-arxiv</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">org-ref-scopus</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">org-ref-wos</span>))
 </pre>
 </div>
 
@@ -479,13 +479,13 @@ To configure org-ref-helm, add the following lines of code
 
 <div class="org-src-container">
 <pre class="src src-lisp">(use-package org-ref-helm
-  <span style="font-weight: bold;">:ensure</span> nil
-<span style="font-weight: bold; font-style: italic;">;;  </span><span style="font-weight: bold; font-style: italic;">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
-  <span style="font-weight: bold;">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+  <span class="org-builtin">:ensure</span> nil
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">:load-path (lambda () (expand-file-name "org-ref" scimax-dir))</span>
+  <span class="org-builtin">:init</span> (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
               org-ref-insert-cite-function 'org-ref-cite-insert-helm
               org-ref-insert-label-function 'org-ref-insert-label-link
               org-ref-insert-ref-function 'org-ref-insert-ref-link
-              org-ref-cite-onclick-function (<span style="font-weight: bold;">lambda</span> (_) (org-ref-citation-hydra/body))))
+              org-ref-cite-onclick-function (<span class="org-keyword">lambda</span> (_) (org-ref-citation-hydra/body))))
 </pre>
 </div>
 
@@ -509,7 +509,7 @@ Open a terminal and enter the following command
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">$ curl --proto <span style="font-style: italic;">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+<pre class="src src-shell">$ curl --proto <span class="org-string">'=https'</span> --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 </pre>
 </div>
 
