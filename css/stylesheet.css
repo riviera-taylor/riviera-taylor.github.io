@@ -224,7 +224,7 @@ pre span.org-rainbow-delimiters-depth-9  {color:#887070;}
 pre span.org-sh-quoted-exec              {color:#FF1493;}
   
 /* My CSS */ 
-
+pre span {font-family: monospace;}
 
 body {
     background-color: #ebdccb;
@@ -236,6 +236,7 @@ body {
 
 code {
     font-size: 1.25rem;
+    font-family: monospace;
 }
 
 img {
