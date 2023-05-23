@@ -6,7 +6,7 @@
 <generator>Emacs webfeeder.el</generator>
 <link>https://rivierataylor.info/posts</link>
 <atom:link href="https://rivierataylor.info/posts/rss.xml" rel="self" type="application/rss+xml"/>
-<lastBuildDate>Tue, 23 May 2023 14:29:05 +0100</lastBuildDate>
+<lastBuildDate>Tue, 23 May 2023 15:01:25 +0100</lastBuildDate>
 <item>
   <title>Making a Website with Org Mode and Git</title>
   <description><![CDATA[<div id="content" class="content">
@@ -373,21 +373,13 @@ There's a lot of code on this webpage and admittedly I didn't write most of it. 
 </div>
 </div>
 
- <div id="outline-container-orgc11e4c7" class="outline-1">
- <h1 id="orgc11e4c7">Publishing the Website</h1>
- <div class="outline-text-1" id="text-orgc11e4c7">
- <div class="org-src-container">
- <pre class="src src-shell">emacs --batch -l ~/website/blog.el -f org-publish-all
-</pre>
-</div>
-</div>
-</div>
  <div id="outline-container-orgc45757f" class="outline-1">
  <h1 id="orgc45757f">Generating the RSS Feed</h1>
  <div class="outline-text-1" id="text-orgc45757f">
  <p>
-The following code was written by anonimno. It utilises the Emacs package  <i>Webfeeder</i> to
+The following code was written by anonimno (link below). It utilises the Emacs package  <i>Webfeeder</i> to generate the file  <code>rss.xml</code>. It's possible to use an RSS feed reader to subscribe to the RSS feed. That way it's simple to receive updates about new blog posts.
 </p>
+
  <div class="org-src-container">
  <pre class="src src-emacs-lisp"> <span class="org-comment-delimiter">;; </span> <span class="org-comment">https://anonimno.codeberg.page/rss_feed.html</span>
 ( <span class="org-keyword">defun</span>  <span class="org-function-name">rss-gen</span>()
@@ -405,10 +397,41 @@ The following code was written by anonimno. It utilises the Emacs package  <i>We
 </div>
 </div>
 </div>
+
+ <div id="outline-container-org0471bcd" class="outline-1">
+ <h1 id="org0471bcd">Publishing the website</h1>
+ <div class="outline-text-1" id="text-org0471bcd">
+ <p>
+To publish the website it makes sense to run Emacs in batch mode. '[A] batch program consumes all of its inputs at once and computes its result. … When we launch a batch program, the operating system calls the main function on its inputs and waits for the program’s output' ( <a href="#citeproc_bib_item_1">Felleisen et al. 2014</a>). The following command starts Emacs in batch mode, loads a couple of files, and then calls the function  <code>org-publish-all</code>.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-shell">$ emacs --batch -l ~/.emacs -l ~/website/blog.el -f org-publish-all
+</pre>
+</div>
+
+ <p>
+After we have called this function and created the HTML pages, it's time to call the Emacs function  <code>rss-gen</code>. It's necessary to do this whilst running Emacs interactively, rather than in batch mode. Having generated / updated the RSS feed the final step is to push the HTML repository upstream using Git. 
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orgb64df3e" class="outline-1">
+ <h1 id="orgb64df3e">Bibliography</h1>
+ <div class="outline-text-1" id="text-orgb64df3e">
+ <p>
+
+</p>
+
+ <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style> <div class="csl-bib-body">
+   <div class="csl-entry"> <a id="citeproc_bib_item_1"></a>Felleisen, Matthias, Robert Bruce Findler, Matthew Flatt, and Shriram Krishnamurthi. 2014.  <i>How to Design Programs, Second Edition</i>. Cambridge (Mass.): MIT Press.</div>
+</div>
+</div>
+</div>
 </div>]]></description>
   <link>https://rivierataylor.info/posts/may-05-making-a-website.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-making-a-website.html</guid>
-  <pubDate>Tue, 23 May 2023 14:28:00 +0100</pubDate>
+  <pubDate>Tue, 23 May 2023 15:01:00 +0100</pubDate>
 </item>
 <item>
   <title>FLOSS document production workflow</title>
