@@ -6,7 +6,7 @@
 <generator>Emacs webfeeder.el</generator>
 <link>https://rivierataylor.info/posts</link>
 <atom:link href="https://rivierataylor.info/posts/rss.xml" rel="self" type="application/rss+xml"/>
-<lastBuildDate>Fri, 19 May 2023 10:46:53 +0100</lastBuildDate>
+<lastBuildDate>Tue, 23 May 2023 14:29:05 +0100</lastBuildDate>
 <item>
   <title>Making a Website with Org Mode and Git</title>
   <description><![CDATA[<div id="content" class="content">
@@ -14,7 +14,7 @@
  <h1 id="org63211e2">Emacs' Org Mode</h1>
  <div class="outline-text-1" id="text-org63211e2">
  <p>
-Org Mode is note taking and project management software. On the one hand, it allows one to keep track of TODO items, schedule these items, view them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
+Org Mode is note taking and project management software. On the one hand, it allows for keeping track of TODO items, scheduling these items and viewing them in an agenda. It is possible to assign a priority, or a person to a TODO item and marking completed items as DONE is simple. On the other hand, it supports hierarchical note-taking. Throughout, Org Mode implements a lightweight syntax for denoting headlines, ordered and unordered lists, document properties, text formatting and inline LaTeX snippets. Images can be included in org files along with links to other files or webpages. It is possible to export org files to various other formats such as HTML, ODT, LaTeX and plain text. Various extensions allow for exporting to even more formats. Org Mode also offers a publishing feature which makes it possible to reformat folders worth of files in HTML. This publishing feature is composed of several elements which can be edited to produce bespoke websites. There are also extensions available for Org Mode. Their purposes vary from bidirectional Google Calendar synchronisation to mind map generation, citation and bibliography management, even a pomodoro timer. Org Mode is a key part of GNU Emacs. Developing practical skills related to this software, which I have been implementing into my practice for several years now, has been a core aspect of developing this website.
 </p>
 </div>
 </div>
@@ -23,128 +23,392 @@ Org Mode is note taking and project management software. On the one hand, it all
  <h1 id="org2a0ccee">Git</h1>
  <div class="outline-text-1" id="text-org2a0ccee">
  <p>
-Git is version control software. Git relies on user-defined moments to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as Github. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
+Git is version control software. Git relies on user-defined moments (commits) to keep track of changes to files within a given repository. It has network permissions and can 'clone' git repositories from remote locations using the internet. It is also possible to push git repositories to hosting platforms such as GitHub. I am doing so with this website, which is currently hosted on GitHub Pages. As an Emacs user, I am using Magit. This software enables one to interface with Git without leaving Emacs. I can stage changes, create commits and push changes upstream with a few key-presses. 
 </p>
 </div>
 </div>
 
- <div id="outline-container-org3e72db5" class="outline-1">
- <h1 id="org3e72db5">Coding for Org Mode</h1>
- <div class="outline-text-1" id="text-org3e72db5">
+ <div id="outline-container-org47e2f40" class="outline-1">
+ <h1 id="org47e2f40"> <code>blog.el</code></h1>
+ <div class="outline-text-1" id="text-org47e2f40">
  <p>
-Org Mode is extensible and algorithms can be written to automate repetitive tasks or configure practices.
+There are a several examples on the internet of people finding ways to blog with Emacs' Org Mode. Some solutions I encountered included  <a href="https://www.sadiqpk.org/index.html">Mohammed Sadiq's blog</a> and  <a href="https://writepermission.com/">Toon Claes' blog</a> but there are many more people out there using Org Mode to create blogs. Unfortunately, I cannot recall where I found most of the code for the solution I have implemented, but here it is. This code exists in a file called  <code>blog.el</code>, rather than in an init file.
 </p>
-</div>
 
- <div id="outline-container-org915d331" class="outline-2">
- <h2 id="org915d331"> <code>tempo-template-org-headers</code></h2>
- <div class="outline-text-2" id="text-org915d331">
+
  <div class="org-src-container">
- <pre class="src src-emacs-lisp">( <span class="org-keyword">require</span> ' <span class="org-constant">tempo</span>)
-( <span class="org-keyword">require</span> ' <span class="org-constant">org-tempo</span>)
-( <span class="org-keyword">require</span> ' <span class="org-constant">calendar</span>)
+ <pre class="src src-emacs-lisp">( <span class="org-keyword">require</span> ' <span class="org-constant">ox-publish</span>)
 
-  ( <span class="org-keyword">defun</span>  <span class="org-function-name">insdate-insert-current-date</span> ( <span class="org-type">&optional</span> omit-day-of-week-p)
-     <span class="org-doc">"Insert today's date using the current locale.</span>
- <span class="org-doc">  With a prefix argument, the date is inserted without the day of</span>
- <span class="org-doc">  the week."</span>
-    ( <span class="org-keyword">interactive</span>  <span class="org-string">"P*"</span>)
-    (insert (calendar-date-string (calendar-current-date) nil
-                                  omit-day-of-week-p)))
+( <span class="org-keyword">defvar</span>  <span class="org-variable-name">blog-conf</span>
+  '( <span class="org-builtin">:title</span>               <span class="org-string">"Riviera Taylor"</span>
+                         <span class="org-builtin">:desc</span>                <span class="org-string">"My Website"</span>
+                         <span class="org-builtin">:author</span>              <span class="org-string">"Riviera Taylor"</span>
+                         <span class="org-builtin">:url</span>                 <span class="org-string">"rivierataylor.info/posts"</span>
+                         <span class="org-builtin">:src</span>                 <span class="org-string">"~/website-v2"</span>
+                         <span class="org-builtin">:out</span>                 <span class="org-string">"~/Public/HTML"</span>
+                         <span class="org-builtin">:layouts</span>             <span class="org-string">"~/website-v2/layouts"</span>
+                         <span class="org-builtin">:src-posts</span>           <span class="org-string">"~/website-v2/posts"</span>
+                         <span class="org-builtin">:out-posts</span>           <span class="org-string">"~/Public/HTML/posts"</span>)
+   <span class="org-doc">"Configuration for exporting project."</span>)
 
-( <span class="org-keyword">setq</span> tempo-interactive t)
-(tempo-define-template  <span class="org-string">"org-headers"</span>
-                       '( <span class="org-string">"#+DATE: "</span> (insdate-insert-current-date) n
-                          <span class="org-string">"#+AUTHOR: "</span> (p  <span class="org-string">"Author: "</span> author) n
-                          <span class="org-string">"#+TITLE: "</span> (p  <span class="org-string">"Title: "</span> title) n
-                          <span class="org-string">"#+SUBTITLE: "</span> (p  <span class="org-string">"Subtitle: "</span> subtitle) n)
-                        <span class="org-string">"org-headers"</span>
-                        <span class="org-string">"Insert org headers"</span>)
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-getconf</span> (k)
+   <span class="org-doc">"Return the configuration value with key K extracted from conf alist."</span>
+  (plist-get blog-conf k))
 </pre>
 </div>
 
  <p>
-When called, the function automatically inserts the current date according to Emacs' calendar. Then it prompts the user for the author's name, the title of the document and the subtitle. Such information is input interactively by the user via the mini-buffer. The output of the command might look something like this:
+This code snippet defines the variable  <code>blog-conf</code>, which is a list of keywords ( <code>:title</code>,  <code>:desc</code>,  <code>:author</code>, etc.) and values. It also defines the function  <code>blog-getconf</code> which expects an argument  <code>k</code> that retrieves the value of the keyword.
 </p>
 
- <div class="org-src-container">
- <pre class="src src-org"> <span class="org-org-document-info-keyword">#+DATE:</span>  <span class="org-org-document-info">Friday, May 5, 2023</span>
- <span class="org-org-document-info-keyword">#+AUTHOR:</span>  <span class="org-org-document-info">Riviera Taylor</span>
- <span class="org-org-document-info-keyword">#+TITLE:</span>  <span class="org-org-document-title">Foo</span>
- <span class="org-org-document-info-keyword">#+SUBTITLE:</span>  <span class="org-org-document-info">Bar</span>
-</pre>
-</div>
-</div>
-</div>
-
-
- <div id="outline-container-orgf63a467" class="outline-2">
- <h2 id="orgf63a467">org-publish-project-alist</h2>
- <div class="outline-text-2" id="text-orgf63a467">
- <div class="org-src-container">
- <pre class="src src-elisp">( <span class="org-keyword">require</span> ' <span class="org-constant">ox-publish</span>)
-( <span class="org-keyword">setq</span> org-publish-project-alist
-      '(
-        ( <span class="org-string">"website-entries"</span>
-         <span class="org-builtin">:base-directory</span>  <span class="org-string">"~/website"</span>
-         <span class="org-builtin">:base-extension</span>  <span class="org-string">"org"</span>
-         <span class="org-builtin">:publishing-directory</span>  <span class="org-string">"~/website_public"</span>
-         <span class="org-builtin">:recursive</span> t
-         <span class="org-builtin">:publishing-function</span> org-ref-html-publish-to-html  <span class="org-comment-delimiter">;; </span> <span class="org-comment">as defined above</span>
-         <span class="org-builtin">:headline-levels</span> 4
-         <span class="org-builtin">:auto-preamble</span> t
-         <span class="org-builtin">:html-head</span>  <span class="org-string">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
-                  <span class="org-builtin">:html-preamble</span>  <span class="org-string">"</span>
- <span class="org-string"><!--Navigation bar--></span>
- <span class="org-string"><div id=\"nav-placeholder\"></span>
-
- <span class="org-string"></div></span>
-
- <span class="org-string"><script></span>
- <span class="org-string">$(function(){</span>
- <span class="org-string">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
- <span class="org-string">});</span>
- <span class="org-string"></script></span>
- <span class="org-string"><!--end of Navigation bar-->"</span>)
-        ( <span class="org-string">"website-static"</span>
-          <span class="org-builtin">:base-directory</span>  <span class="org-string">"~/website"</span>
-          <span class="org-builtin">:base-extension</span>  <span class="org-string">"css</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">js</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">png</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">jpg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">gif</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">pdf</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">mp3</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">ogg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">swf"</span>
-          <span class="org-builtin">:publishing-directory</span>  <span class="org-string">"~/website_public/"</span>
-          <span class="org-builtin">:recursive</span> t
-          <span class="org-builtin">:publishing-function</span> org-publish-attachment
-          <span class="org-builtin">:html-head</span>  <span class="org-string">"<link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" /> <script src=\"https://code.jquery.com/jquery-1.10.2.js\"></script>"</span>
-          <span class="org-builtin">:html-preamble</span>  <span class="org-string">"</span>
- <span class="org-string"><!--Navigation bar--></span>
- <span class="org-string"><div id=\"nav-placeholder\"></span>
-
- <span class="org-string"></div></span>
-
- <span class="org-string"><script></span>
- <span class="org-string">$(function(){</span>
- <span class="org-string">  $(\"#nav-placeholder\").load(\"nav.html\");</span>
- <span class="org-string">});</span>
- <span class="org-string"></script></span>
- <span class="org-string"><!--end of Navigation bar-->"</span>)
-        ( <span class="org-string">"website"</span>  <span class="org-builtin">:components</span> ( <span class="org-string">"website-entries"</span>  <span class="org-string">"website-static"</span>))
-        ))
-</pre>
-</div>
-</div>
-</div>
-</div>
-
- <div id="outline-container-org0e944d9" class="outline-1">
- <h1 id="org0e944d9">The Knack</h1>
- <div class="outline-text-1" id="text-org0e944d9">
  <p>
-The trick is  <b>not</b> to edit the HTML code by hand but rather to let Org Mode handle this.
+Rather than utilise the default  <code>org-html-publish-to-html</code> I have incorporated the  <code>org-ref</code> export backend into the website publishing workflow. Two functions have been defined  <code>org-ref-export-to-file-nomarks-noopen</code> and  <code>org-ref-html-publish-to-html</code>. These commands together make it possible to publish files using  <code>org-ref</code> which is an extension for Org Mode that facilitates with handling citations and bibliographies. I found this solution on StackExchange.
 </p>
+
+ <div class="org-src-container">
+ <pre class="src src-emacs-lisp">
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">org publishing</span>
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">https://emacs.stackexchange.com/questions/70491/how-to-use-org-ref-export-to-html-in-org-publish-project</span>
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">Very simplified version of org-ref-export-to from org-ref-export.el</span>
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">that export to filename</span>
+( <span class="org-keyword">defun</span>  <span class="org-function-name">org-ref-export-to-file-nomarks-noopen</span>
+    (backend filename  <span class="org-type">&optional</span> async subtreep visible-only body-only info)  
+    ( <span class="org-keyword">org-export-with-buffer-copy</span>
+     (org-export-expand-include-keyword)
+     (org-ref-process-buffer backend subtreep)
+     (org-export-to-file backend filename
+             async subtreep visible-only
+             body-only info)
+     ))
+
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">org-html-publish-to-html from ox-html.el adapted to org-ref</span>
+ <span class="org-comment-delimiter">;; </span> <span class="org-comment">Instead of org-export-to-file calls org-ref-export-to-file-nomarks-noopen</span>
+( <span class="org-keyword">defun</span>  <span class="org-function-name">org-ref-html-publish-to-html</span> (plist filename pub-dir)
+  ( <span class="org-keyword">unless</span> ( <span class="org-keyword">or</span> (not pub-dir) (file-exists-p pub-dir)) (make-directory pub-dir t))
+   <span class="org-comment-delimiter">;; </span> <span class="org-comment">Check if a buffer visiting FILENAME is already open.</span>
+  ( <span class="org-keyword">let*</span> ((org-inhibit-startup t)
+     (visiting (find-buffer-visiting filename))
+     (work-buffer ( <span class="org-keyword">or</span> visiting (find-file-noselect filename))))
+    ( <span class="org-keyword">unwind-protect</span>
+      ( <span class="org-keyword">with-current-buffer</span> work-buffer
+        ( <span class="org-keyword">let</span> ((output (org-export-output-file-name  <span class="org-string">".html"</span> nil pub-dir)))
+          (org-ref-export-to-file-nomarks-noopen 'html output
+            nil nil nil (plist-get plist  <span class="org-builtin">:body-only</span>)
+            (org-combine-plists
+             plist
+             `( <span class="org-builtin">:crossrefs</span>
+               ,(org-publish-cache-get-file-property
+                  <span class="org-comment-delimiter">;; </span> <span class="org-comment">Normalize file names in cache.</span>
+                 (file-truename filename)  <span class="org-builtin">:crossrefs</span> nil t)
+                <span class="org-builtin">:filter-final-output</span>
+               (org-publish--store-crossrefs
+                org-publish-collect-index
+                ,@(plist-get plist  <span class="org-builtin">:filter-final-output</span>))))))))))
+
+</pre>
+</div>
+
+ <p>
+When org publishes files to HTML it splits the body of the document into three sections: preamble, content and postamble. For example, the navigation bar displayed on this website exists in the preamble of the HTML source. Different layouts are necessary for webpages depending on their level in the directory structure. I found the following pieces of code online, but I cannot remember where from.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-emacs-lisp">
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-read-layout-file</span> (filename)
+   <span class="org-doc">"Return the content for the layout file of name FILE-NAME."</span>
+  ( <span class="org-keyword">let</span> ((layout-dir (expand-file-name (blog-getconf  <span class="org-builtin">:layouts</span>))))
+      ( <span class="org-keyword">with-temp-buffer</span>
+       (insert-file-contents (expand-file-name (format  <span class="org-string">"%s.html"</span> filename) layout-dir))
+       (buffer-string))))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-layout-format</span> (filename)
+   <span class="org-doc">"Return a layout file content formatted for preable/postamble."</span>
+  `(( <span class="org-string">"en"</span> ,(blog-read-layout-file filename))))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-format-rss-feed</span> (title list)
+   <span class="org-doc">"Generate RSS feed, as a string.</span>
+ <span class="org-doc"> TITLE is the title of the RSS feed. LIST is an internal</span>
+ <span class="org-doc"> representation for the files to include, as returned by</span>
+ <span class="org-doc"> `</span> <span class="org-doc"> <span class="org-constant">org-list-to-lisp</span></span> <span class="org-doc">'.  PROJECT is the current project."</span>
+  (concat  <span class="org-string">"#+TITLE: "</span> title  <span class="org-string">"\n\n"</span> (org-list-to-subtree list)))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-format-rss-feed-entry</span> (entry style project)
+   <span class="org-doc">"Format ENTRY for the RSS feed.</span>
+ <span class="org-doc"> ENTRY is a file name.  STYLE is either 'list' or 'tree'.</span>
+ <span class="org-doc"> PROJECT is the current project."</span>
+  ( <span class="org-keyword">let*</span> ((title (org-publish-find-title entry project))
+         (link (concat (file-name-sans-extension entry)  <span class="org-string">".html"</span>))
+         (pubdate (format-time-string (car org-time-stamp-formats)
+                   (org-publish-find-date entry project))))
+    (format  <span class="org-string">"%s</span>
+ <span class="org-string">     :PROPERTIES:</span>
+ <span class="org-string">     :rss_permalink: %s</span>
+ <span class="org-string">     :pubdate: %s</span>
+ <span class="org-string">     :END:\n"</span> title link pubdate)))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-posts-rss-feed</span> (plist filename dir)
+   <span class="org-doc">"Publish PLIST to RSS when FILENAME is rss.org.</span>
+ <span class="org-doc"> DIR is the location of the output."</span>
+  ( <span class="org-keyword">if</span> (equal  <span class="org-string">"rss.org"</span> (file-name-nondirectory filename))
+      (org-rss-publish-to-rss plist filename dir)))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-format-date-subtitle</span> (file project)
+   <span class="org-doc">"Format the date found in FILE of PROJECT."</span>
+  ( <span class="org-keyword">let</span> ((date (org-publish-find-date file project)))
+    (string-trim (format-time-string  <span class="org-string">"%e %b %Y"</span> date))))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-sitemap-entry</span> (entry style project)
+   <span class="org-doc">"Format for sitemap ENTRY, as a string.</span>
+ <span class="org-doc">  ENTRY is a file name.  STYLE is the default style of the sitemap.</span>
+ <span class="org-doc">  PROJECT is the current project."</span>
+  ( <span class="org-keyword">unless</span> ( <span class="org-keyword">or</span> (equal entry  <span class="org-string">"404.org"</span>)
+              (string-prefix-p  <span class="org-string">"_"</span> entry))
+    (format  <span class="org-string">"[[file:%s][%s]] /%s/"</span>
+            entry
+            (org-publish-find-title entry project)
+            (blog-format-date-subtitle entry project))))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-sitemap</span> (title list)
+   <span class="org-doc">"Generate sitemap as a string, having TITLE.</span>
+ <span class="org-doc"> LIST is an internal representation for the files to include, as</span>
+ <span class="org-doc"> returned by `</span> <span class="org-doc"> <span class="org-constant">org-list-to-lisp</span></span> <span class="org-doc">'."</span>
+  ( <span class="org-keyword">let</span> ((filtered-list (cl-remove-if ( <span class="org-keyword">lambda</span> (x)
+                                       ( <span class="org-keyword">and</span> (sequencep x) (null (car x))))
+                                     list)))
+    (concat  <span class="org-string">"#+TITLE: "</span> title  <span class="org-string">"\n"</span>
+             <span class="org-string">"#+OPTIONS: title:nil\n"</span>
+             <span class="org-string">"#+META_TYPE: website\n"</span>
+             <span class="org-string">"#+DESCRIPTION: "</span> (blog-getconf  <span class="org-builtin">:desc</span>)  <span class="org-string">"\n"</span>
+             <span class="org-string">"\n#+ATTR_HTML: :class sitemap\n"</span>
+            (org-list-to-org filtered-list))))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-html-tag</span> (name  <span class="org-type">&rest</span> attrs)
+   <span class="org-doc">"Returns a self closing html tag for string NAME.</span>
+ <span class="org-doc"> ATTRS specify additional attributes as lists."</span>
+  ( <span class="org-keyword">let*</span> ((format-f ( <span class="org-keyword">lambda</span> (attr)
+                     (format  <span class="org-string">"%s=\"%s\""</span> (car attr) (cadr attr))))
+         (tag-attrs (mapconcat format-f  attrs  <span class="org-string">" "</span>)))
+    (concat  <span class="org-string">"<"</span> name  <span class="org-string">" "</span> tag-attrs  <span class="org-string">">"</span>)))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-html-head-extra</span> (file project)
+   <span class="org-doc">"Return <meta> elements for SEO.</span>
+ <span class="org-doc"> FILE is the html filename, PROJECT contains the properties."</span>
+  ( <span class="org-keyword">let*</span> ((info (cdr project))
+         (org-export-options-alist
+          `(( <span class="org-builtin">:title</span>  <span class="org-string">"TITLE"</span> nil nil parse)
+            ( <span class="org-builtin">:date</span>  <span class="org-string">"DATE"</span> nil nil parse)
+            ( <span class="org-builtin">:author</span>  <span class="org-string">"AUTHOR"</span> nil ,(plist-get info  <span class="org-builtin">:author</span>) space)
+            ( <span class="org-builtin">:description</span>  <span class="org-string">"DESCRIPTION"</span> nil nil newline)
+            ( <span class="org-builtin">:keywords</span>  <span class="org-string">"KEYWORDS"</span> nil nil space)
+            ( <span class="org-builtin">:meta-image</span>  <span class="org-string">"META_IMAGE"</span> nil ,(plist-get info  <span class="org-builtin">:meta-image</span>) nil)
+            ( <span class="org-builtin">:meta-type</span>  <span class="org-string">"META_TYPE"</span> nil ,(plist-get info  <span class="org-builtin">:meta-type</span>) nil)))
+         (project-title (org-publish-find-title file project))
+         (title ( <span class="org-keyword">if</span> (not (string= project-title  <span class="org-string">"Title"</span>))
+                   project-title
+                  (blog-getconf  <span class="org-builtin">:title</span>)))
+         (date (org-publish-find-date file project))
+         (author (org-publish-find-property file  <span class="org-builtin">:author</span> project))
+         (description (org-publish-find-property file  <span class="org-builtin">:description</span> project))
+         (link-home (file-name-as-directory (plist-get info  <span class="org-builtin">:html-link-home</span>)))
+         (extension ( <span class="org-keyword">or</span> (plist-get info  <span class="org-builtin">:html-extension</span>) org-html-extension))
+         (rel-file (org-publish-file-relative-name file info))
+         (full-url (concat link-home (file-name-sans-extension rel-file)  <span class="org-string">"."</span> extension))
+         (meta-img (org-publish-find-property file  <span class="org-builtin">:meta-image</span> project))
+         (image ( <span class="org-keyword">when</span> meta-img (concat link-home meta-img)))
+         (favicon  <span class="org-string">"/img/favicon.ico"</span>)
+         (type (org-publish-find-property file  <span class="org-builtin">:meta-type</span> project)))
+    (mapconcat 'identity
+               `(,(blog-html-tag  <span class="org-string">"link"</span> '(rel icon) '(type image/x-icon) `(href ,favicon))
+                 ,(blog-html-tag  <span class="org-string">"link"</span> '(rel alternate
+                                          '(type application/rss+xml)
+                                          '(href  <span class="org-string">"rss.xml"</span>)
+                                          '(title  <span class="org-string">"RSS feed"</span>)))
+                 ,(blog-html-tag  <span class="org-string">"meta"</span> '(property og:title) `(content ,title))
+                 ,(blog-html-tag  <span class="org-string">"meta"</span> '(property og:url) `(content ,full-url))
+                 ,( <span class="org-keyword">and</span> description
+                       (blog-html-tag  <span class="org-string">"meta"</span> '(property og:description) `(content ,description)))
+                 ,( <span class="org-keyword">and</span> image
+                       (blog-html-tag  <span class="org-string">"meta"</span> '(property og:image) `(content ,image)))
+                 ,(blog-html-tag  <span class="org-string">"meta"</span> '(property og:type) `(content ,type))
+                 ,( <span class="org-keyword">and</span> (equal type  <span class="org-string">"article"</span>)
+                       (blog-html-tag  <span class="org-string">"meta"</span> '(property article:author) `(content ,author)))
+                 ,( <span class="org-keyword">and</span> (equal type  <span class="org-string">"article"</span>)
+                       (blog-html-tag  <span class="org-string">"meta"</span> '(property article:published_time
+                                               `(content ,(format-time-string  <span class="org-string">"%FT%T%z"</span> date))))))
+                <span class="org-string">"\n"</span>)))
+
+( <span class="org-keyword">defun</span>  <span class="org-function-name">blog-publish-to-html</span> (plist filename pub-dir)
+   <span class="org-doc">"Publish the file to html, checking if FILENAME starts with</span>
+ <span class="org-doc"> the character `_', representing an hidden post.</span>
+ <span class="org-doc"> Also adds post date as subtitle and extra head tags for SEO.</span>
+ <span class="org-doc"> PLIST contains the properties, FILENAME the source file and</span>
+ <span class="org-doc"> PUB-DIR the output directory."</span>
+  ( <span class="org-keyword">when</span> (not (string-prefix-p  <span class="org-string">"_"</span> filename))
+    ( <span class="org-keyword">let</span> ((project (cons 'rw plist)))
+       <span class="org-comment-delimiter">;; </span> <span class="org-comment">Adding date subtitle</span>
+      (plist-put plist  <span class="org-builtin">:subtitle</span> (blog-format-date-subtitle filename project))
+       <span class="org-comment-delimiter">;; </span> <span class="org-comment">Adding extra metatags</span>
+      (plist-put plist  <span class="org-builtin">:html-head-extra</span> (blog-html-head-extra filename project))
+      (org-ref-html-publish-to-html plist filename pub-dir))))
+</pre>
+</div>
+
+ <p>
+The  <code>org-publish-project-alist</code> contains a list of projects, or perhaps components which make up a project. Org consults this alist when functions such as  <code>org-publish-all</code> are called.
+</p>
+
+ <div class="org-src-container">
+ <pre class="src src-emacs-lisp">( <span class="org-keyword">setq</span> org-publish-project-alist
+      `(( <span class="org-string">"org"</span>
+          <span class="org-builtin">:base-directory</span>        ,(blog-getconf  <span class="org-builtin">:src</span>)
+          <span class="org-builtin">:base-extension</span>         <span class="org-string">"org"</span>
+          <span class="org-builtin">:publishing-directory</span>  ,(blog-getconf  <span class="org-builtin">:out</span>)
+          <span class="org-builtin">:exclude</span>                <span class="org-string">"README\\.md</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">LICENSE</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">\\.gitignore</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">rss\\.org"</span>
+          <span class="org-builtin">:publishing-function</span>   org-ref-html-publish-to-html
+          <span class="org-builtin">:html-link-home</span>         <span class="org-string">"index.html"</span>
+          <span class="org-builtin">:html-home/up-format</span>    <span class="org-string">""</span>
+          <span class="org-builtin">:recursive</span>             nil
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">HTML5</span>
+          <span class="org-builtin">:html-extension</span>         <span class="org-string">"html"</span>
+          <span class="org-builtin">:htmlized-source</span>       t
+          <span class="org-builtin">:html-doctype</span>           <span class="org-string">"html5"</span>
+          <span class="org-builtin">:html-html5-fancy</span>      t
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Extra</span>
+          <span class="org-builtin">:language</span>               <span class="org-string">"en"</span>
+          <span class="org-builtin">:section-numbers</span>       nil
+          <span class="org-builtin">:with-toc</span>              nil
+          <span class="org-builtin">:with-date</span>             nil
+          <span class="org-builtin">:headlinevels</span>          4
+          <span class="org-builtin">:html-toplevel-hlevel</span>  1
+          <span class="org-builtin">:with-email</span>            nil
+          <span class="org-builtin">:with-title</span>            t
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Disable some Org's HTML defaults</span>
+          <span class="org-builtin">:html-head-include-scripts</span>       nil
+          <span class="org-builtin">:html-head-include-default-style</span> nil
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">HTML</span>
+          <span class="org-builtin">:html-head</span>             ,(blog-read-layout-file 'org-head)
+          <span class="org-builtin">:html-postamble</span>        t
+          <span class="org-builtin">:html-preamble-format</span>  ,(blog-layout-format 'org-preamble)
+          <span class="org-builtin">:html-postamble-format</span> ,(blog-layout-format 'org-postamble)
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Meta</span>
+          <span class="org-builtin">:title</span>                 ,(blog-getconf  <span class="org-builtin">:title</span>)
+          <span class="org-builtin">:author</span>                ,(blog-getconf  <span class="org-builtin">:author</span>)
+          <span class="org-builtin">:email</span>                  <span class="org-string">""</span>
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">:meta-image            nil</span>
+          <span class="org-builtin">:meta-type</span>              <span class="org-string">"website"</span>)
+
+        ( <span class="org-string">"posts"</span>
+          <span class="org-builtin">:base-directory</span>        ,(blog-getconf  <span class="org-builtin">:src-posts</span>)
+          <span class="org-builtin">:base-extension</span>         <span class="org-string">"org"</span>
+          <span class="org-builtin">:publishing-directory</span>  ,(blog-getconf  <span class="org-builtin">:out-posts</span>)
+          <span class="org-builtin">:exclude</span>                <span class="org-string">"rss\\.org"</span>
+          <span class="org-builtin">:publishing-function</span>   blog-publish-to-html
+          <span class="org-builtin">:html-link-home</span>         <span class="org-string">"index.html"</span>
+          <span class="org-builtin">:html-home/up-format</span>    <span class="org-string">""</span>
+                                         <span class="org-comment-delimiter">; </span> <span class="org-comment">HTML5</span>
+          <span class="org-builtin">:html-extension</span>         <span class="org-string">"html"</span>
+          <span class="org-builtin">:htmlized-source</span>       t
+          <span class="org-builtin">:html-doctype</span>           <span class="org-string">"html5"</span>
+          <span class="org-builtin">:html-html5-fancy</span>      t
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Extra</span>
+          <span class="org-builtin">:language</span>               <span class="org-string">"en"</span>
+          <span class="org-builtin">:section-numbers</span>       nil
+          <span class="org-builtin">:with-toc</span>              nil
+          <span class="org-builtin">:with-date</span>             nil
+          <span class="org-builtin">:headline-levels</span>       4
+          <span class="org-builtin">:html-toplevel-hlevel</span>  1
+          <span class="org-builtin">:with-email</span>            nil
+          <span class="org-builtin">:with-title</span>            t
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Disable some Org's HTML defaults</span>
+          <span class="org-builtin">:html-head-include-scripts</span>       nil
+          <span class="org-builtin">:html-head-include-default-style</span> nil
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">HTML</span>
+          <span class="org-builtin">:html-head</span>             ,(blog-read-layout-file 'posts-head)
+          <span class="org-builtin">:html-preamble</span>         t
+          <span class="org-builtin">:html-postamble</span>        t
+          <span class="org-builtin">:html-preamble-format</span>  ,(blog-layout-format 'posts-preamble)
+          <span class="org-builtin">:html-postamble-format</span> ,(blog-layout-format 'posts-postamble)
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Sitemap</span>
+          <span class="org-builtin">:auto-sitemap</span>          t
+          <span class="org-builtin">:sitemap-date-format</span>    <span class="org-string">"Published: %a %b %d %Y"</span>
+          <span class="org-builtin">:sitemap-filename</span>       <span class="org-string">"sitemap.org"</span>
+          <span class="org-builtin">:sitemap-title</span>         ,(blog-getconf  <span class="org-builtin">:title</span>)
+          <span class="org-builtin">:sitemap-sort-files</span>    anti-chronologically
+          <span class="org-builtin">:sitemap-function</span>      blog-sitemap
+          <span class="org-builtin">:sitemap-format-entry</span>  blog-sitemap-entry
+          <span class="org-comment-delimiter">;; </span> <span class="org-comment">Meta</span>
+          <span class="org-builtin">:title</span>                 ,(blog-getconf  <span class="org-builtin">:title</span>)
+          <span class="org-builtin">:author</span>                ,(blog-getconf  <span class="org-builtin">:author</span>)
+          <span class="org-builtin">:email</span>                  <span class="org-string">""</span>
+          <span class="org-builtin">:meta-type</span>              <span class="org-string">"article"</span>)
+
+        ( <span class="org-string">"img"</span>
+          <span class="org-builtin">:base-directory</span>        ,(expand-file-name  <span class="org-string">"img"</span> (blog-getconf  <span class="org-builtin">:src</span>))
+          <span class="org-builtin">:base-extension</span>         <span class="org-string">"jpg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">jpeg</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">gif</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">png</span> <span class="org-string"> <span class="org-regexp-grouping-backslash">\\</span></span> <span class="org-string"> <span class="org-regexp-grouping-construct">|</span></span> <span class="org-string">svg"</span>
+          <span class="org-builtin">:publishing-directory</span>  ,(expand-file-name  <span class="org-string">"img"</span> (blog-getconf  <span class="org-builtin">:out</span>))
+          <span class="org-builtin">:publishing-function</span>   org-publish-attachment
+          <span class="org-builtin">:recursive</span>             t)
+
+        ( <span class="org-string">"css"</span>
+          <span class="org-builtin">:base-directory</span>        ,(expand-file-name  <span class="org-string">"css"</span> (blog-getconf  <span class="org-builtin">:src</span>))
+          <span class="org-builtin">:base-extension</span>         <span class="org-string">"css"</span>
+          <span class="org-builtin">:publishing-directory</span>  ,(expand-file-name  <span class="org-string">"css"</span> (blog-getconf  <span class="org-builtin">:out</span>))
+          <span class="org-builtin">:publishing-function</span>   org-publish-attachment
+          <span class="org-builtin">:recursive</span>             t)
+
+        ( <span class="org-string">"pdfs"</span>
+          <span class="org-builtin">:base-directory</span>        ,(expand-file-name  <span class="org-string">"pdfs"</span> (blog-getconf  <span class="org-builtin">:src</span>))
+          <span class="org-builtin">:base-extension</span>         <span class="org-string">"pdf"</span>
+          <span class="org-builtin">:publishing-directory</span>  ,(expand-file-name  <span class="org-string">"pdfs"</span> (blog-getconf  <span class="org-builtin">:out</span>))
+          <span class="org-builtin">:publishing-function</span>   org-publish-attachment
+          <span class="org-builtin">:recursive</span>             t)
+
+        ( <span class="org-string">"blog-publish"</span>  <span class="org-builtin">:components</span> ( <span class="org-string">"org"</span>  <span class="org-string">"posts"</span>  <span class="org-string">"img"</span>  <span class="org-string">"css"</span>  <span class="org-string">"pdfs"</span>))))
+</pre>
+</div>
+
+ <p>
+There's a lot of code on this webpage and admittedly I didn't write most of it. Rather I have relied on existing schemes and solutions available on the internet to produce a website. The code above (all of it) resides in a file called  <code>blog.el</code>, rather than in an init file, to keep things clean.
+</p>
+</div>
+</div>
+
+ <div id="outline-container-orgc11e4c7" class="outline-1">
+ <h1 id="orgc11e4c7">Publishing the Website</h1>
+ <div class="outline-text-1" id="text-orgc11e4c7">
+ <div class="org-src-container">
+ <pre class="src src-shell">emacs --batch -l ~/website/blog.el -f org-publish-all
+</pre>
+</div>
+</div>
+</div>
+ <div id="outline-container-orgc45757f" class="outline-1">
+ <h1 id="orgc45757f">Generating the RSS Feed</h1>
+ <div class="outline-text-1" id="text-orgc45757f">
+ <p>
+The following code was written by anonimno. It utilises the Emacs package  <i>Webfeeder</i> to
+</p>
+ <div class="org-src-container">
+ <pre class="src src-emacs-lisp"> <span class="org-comment-delimiter">;; </span> <span class="org-comment">https://anonimno.codeberg.page/rss_feed.html</span>
+( <span class="org-keyword">defun</span>  <span class="org-function-name">rss-gen</span>()
+( <span class="org-keyword">interactive</span>)
+(webfeeder-build
+  <span class="org-string">"rss.xml"</span>
+  <span class="org-string">"~/Public/HTML/posts"</span>
+  <span class="org-string">"https://rivierataylor.info/posts"</span>
+ (delete ' <span class="org-string">"sitemap.html"</span> (directory-files  <span class="org-string">"~/Public/HTML/posts"</span> nil
+                                         <span class="org-string">"</span> <span class="org-string"> <span class="org-warning">\</span></span> <span class="org-string">.html"</span>))
+  <span class="org-builtin">:title</span>  <span class="org-string">"Riviera's blog"</span>
+  <span class="org-builtin">:description</span>  <span class="org-string">"My blog in RSS"</span>
+  <span class="org-builtin">:builder</span> 'webfeeder-make-rss))
+</pre>
+</div>
 </div>
 </div>
 </div>]]></description>
   <link>https://rivierataylor.info/posts/may-05-making-a-website.html</link>
   <guid isPermaLink="false">https://rivierataylor.info/posts/may-05-making-a-website.html</guid>
-  <pubDate>Fri, 19 May 2023 10:46:00 +0100</pubDate>
+  <pubDate>Tue, 23 May 2023 14:28:00 +0100</pubDate>
 </item>
 <item>
   <title>FLOSS document production workflow</title>
