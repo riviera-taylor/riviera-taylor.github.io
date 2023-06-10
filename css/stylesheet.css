@@ -266,6 +266,12 @@ a.xref {
     color: black;
 }
 
+a:-webkit-any-link {
+    color: #222;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 p {
     margin-top: 0;
     margin-bottom: 0;
@@ -343,8 +349,7 @@ ul.sidenav li a {
 /* } */
 
 ul.sidenav li a:hover:not(.active) {
-    background-color: #f5f5f5;
-    color: #222;
+    background-color: #555;
 }
 
 @media screen and (max-width: 900px) {
